@@ -16,9 +16,19 @@ module.exports = app => {
     // Delete all Fixass
     router.delete("/api/fixa", Fixass.deleteAll);
 
-
-
-
-
     app.use('/', router);
+
+
 };
+
+const pool = require("../config/db.js"); 
+module.exports = (app) => {
+  app.get("/pessoas", async (req, res) => {
+    try {
+      const result = await pool.query("SELECT * FROM pessoa");
+      res.json(result.rows);
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  });
+}
