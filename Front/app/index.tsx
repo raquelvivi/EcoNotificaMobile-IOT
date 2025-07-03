@@ -1,19 +1,32 @@
 import { Text, View, Image, StyleSheet } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    //dando cor de fundo
+    <LinearGradient
+        colors={['#FFFFFF', '#80BC82']} // branco para verde 
+        style={styles.body}
+      >
 
-      <Image source={require('../assets/images/reciclando.png')} style={[styles.img]} />
 
-      <Text>Começando do zero</Text>
-    </View>
+    <View style={[styles.main]}>
+
+      <Image source={require('../assets/images/logo_login 2.png')} style={[styles.img2]} />
+      
+
+        <Image source={require('../assets/images/reciclando.png')} style={[styles.img]} />
+
+
+        <Text style={[styles.texto]}>Você Ainda Não Começou a Reciclar</Text>
+      
+
+
+
+    </View >
+    </LinearGradient>
+
+    
   );
 }
 
@@ -21,36 +34,30 @@ export default function Index() {
 
 const styles = StyleSheet.create({
 
-  cabecalho: {
-
-    flexDirection: 'row', // esse e a linha de baixo deicharam o label e input no lugar certo
-    alignItems: 'center',
-    justifyContent: 'space-between',
-
+  body: {
+    flex: 1
   },
-  MaisInfor: {
-    position: 'absolute',
-    zIndex: 2,
-    borderBottomWidth: 2,
-    borderRadius: 20,
-    padding: 10,
-    width: "98%",
-    maxWidth: "100%",
-    marginTop: "60%",
-    margin: "1%"
-
-  },
-  juntoImagem: {
-    flexDirection: 'row', // esse e a linha de baixo deicharam o label e input no lugar certo
-    alignItems: 'center',
+  main: {
+    marginTop: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
   img: {
-
-    width: 100,
-    height: 100,
-    margin: 5,
-
+    top: 0,
+    width: 250,
+    height: 250,
+    marginTop: 150,
   },
+  img2: {
+    padding: 10,
+    height: 65,
+    width: 240,
+   
+  },
+  texto:{
+    marginTop: 100,
+    fontSize: 20,
+  }
 
 });
 
