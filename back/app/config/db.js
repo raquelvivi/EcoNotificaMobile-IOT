@@ -1,7 +1,13 @@
+require('dotenv').config();
+console.log("Conectando ao banco em:", process.env.DB_HOST);
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  connectionString: "postgresql://econotifica_user:jpAn4zYvBxeVwVHh1uvB0ml9dTrpkwTr@dpg-d1j7o015pdvs73cugg8g-a.oregon-postgres.render.com:5432/econotifica_pl0c",
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
   ssl: {
     rejectUnauthorized: false,
   },
