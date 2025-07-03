@@ -6,4 +6,4 @@ iniciar apenas back: "npm run dev"
 
 iniciar apenas o front: "npm run web"
 
-OBS: se quiser iniciar apenas um entre na pasta devida
+OBS: se quiser iniciar apenas um, entre na pasta devida
