@@ -1,0 +1,23 @@
+{
+  "name": "econotificamobile-iot",
+  "version": "1.0.0",
+  "description": "teste",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run dev --prefix back\" \"npm run web --prefix Front\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raquelvivi/EcoNotificaMobile-IOT.git"
+  },
+  "author": "econotifica",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raquelvivi/EcoNotificaMobile-IOT/issues"
+  },
+  "homepage": "https://github.com/raquelvivi/EcoNotificaMobile-IOT#readme",
+  "dependencies": {
+    "concurrently": "^9.2.0",
+    "nodemon": "^3.1.10"
+  }
+}
