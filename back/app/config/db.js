@@ -2,6 +2,11 @@ require('dotenv').config();
 console.log("Conectando ao banco em:", process.env.DB_HOST);
 const { Pool } = require("pg");
 
+// const pg = require("pg");
+// const { Pool, Client } = pg;
+
+const dbConfig = require("../config/db.config.js");
+
 const pool = new Pool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,

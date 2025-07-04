@@ -1,3 +1,9 @@
+// HOST: "localhost",
+// DATABASE: "econotifica",
+// USER: "postgres",
+// PASSWORD: "Itabor1i",
+// PORT: 5432,
+
 module.exports = {
   HOST: "dpg-d1j7o015pdvs73cugg8g-a.oregon-postgres.render.com",
   DATABASE: "econotifica",
@@ -6,5 +12,5 @@ module.exports = {
   PORT: 5432,
   MAX: 20,
   IDLETIMEOUTMILLIS: 30000,
-  CONNECTIONTIMEOUTMILLIS: 2000
+  CONNECTIONTIMEOUTMILLIS: 2000,
 };
