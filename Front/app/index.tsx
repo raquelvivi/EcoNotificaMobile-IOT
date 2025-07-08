@@ -1,9 +1,11 @@
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, Button } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 
 import Lixeiras from '../components/lixeira'
 
 export default function Index() {
+  const router = useRouter();
 
 // comente todas as lixeiras para ver frame 8 do figma (pedido de cadastro)
   const listaLixeiras = [
@@ -14,7 +16,7 @@ export default function Index() {
     
 
   ]
-
+ 
 
   return (
     //dando cor de fundo
@@ -31,7 +33,7 @@ export default function Index() {
         <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
 
 
-
+        <Button title="Ir para Segunda Aba" onPress={() => router.push('/login')} />
         
 
 
