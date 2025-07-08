@@ -1,6 +1,7 @@
 
 
 module.exports = app => {
+    
     const Usuari = require("../controllers/user.controllers.js");
 
     var router = require("express").Router();
@@ -25,18 +26,3 @@ module.exports = app => {
 
 
 
-//PRECISEI CONFIGURAR LOCALMENTE PARA TESTAR OS CADASTROS
-
-
-//const pool = require("../config/db.js"); 
-
-// module.exports = (app) => {
-//   app.get("/pessoas", async (req, res) => {
-//     try {
-//       const result = await pool.query("SELECT * FROM pessoa");
-//       res.json(result.rows);
-//     } catch (err) {
-//       res.status(500).json({ erro: err.message });
-//     }
-//   });
-// }
