@@ -60,7 +60,7 @@ exports.findAll = (req, res) => {
 // };
 
 
-// Find a single User by Id
+// autenticação
 exports.findOne = (req, res) => {
 
   if (!req.body) {
@@ -68,7 +68,6 @@ exports.findOne = (req, res) => {
       message: "body vaziu",
     });
   }
-
 
   const body = new User({
     email: req.body.email || null,
@@ -80,7 +79,7 @@ exports.findOne = (req, res) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `(controllers) pesquisa nao encontrada com id ${body}.`,
+          message: `(controllers) pessoa não existe ${body}.`,
         });
       } else {
         res.status(500).send({
@@ -90,7 +89,17 @@ exports.findOne = (req, res) => {
     } else res.send(data);
   });
 };
-// Update a User identified by the id in the request
+
+
+
+
+// APARTIR DAQUI NÃO FOI TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO 
+// APARTIR DAQUI NÃO FOI TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO 
+// APARTIR DAQUI NÃO FOI TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO 
+
+
+
+
 exports.update = (req, res) => {
   // Validate Request
   if (!req.body) {

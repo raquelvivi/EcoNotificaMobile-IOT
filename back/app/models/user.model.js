@@ -35,9 +35,9 @@ Usuari.create = (NewUser, result) => {
     );
 };
 
-//isso é pesquisa por barra. não sera necessario aqui
+
 Usuari.findById = (User, result) => {
-    console.log('findById id or nome = ', User)
+    console.log('findById user = ', User)
 
         pool.query('SELECT * FROM pessoa WHERE email = $1 and senha = $2', [User.email, User.senha], (err,
             res) => {
@@ -45,10 +45,10 @@ Usuari.findById = (User, result) => {
                 //throw error
                 console.log("error: ", err);
                 result(err, null);
-                return;
+                return ;
             }
             if (res.rows.length) {
-                console.log("user encontrado: ", res.rows[0]); // isso barra a saida de mais de 1 pessoa
+                console.log("pessoa: ", res.rows[0]);
                 result(null, res.rows[0]);
                 return;
             }
@@ -90,6 +90,15 @@ Usuari.getAll = ( result) => {
     result(null, res);
   });
 };
+
+
+
+
+
+// APARTIR DAQUI NÃO FOI TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO 
+// APARTIR DAQUI NÃO FOI TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO 
+// APARTIR DAQUI NÃO FOI TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO // CODIGO NÃO TESTADO 
+
 
 
 Usuari.updateById = (id, user, result) => {
