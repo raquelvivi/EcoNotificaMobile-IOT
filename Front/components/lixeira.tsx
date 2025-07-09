@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffffff",
         padding: 15,
         borderRadius: 10,
-        maxWidth: 300,
-        minWidth: 200,
+        maxWidth: 350,
+        minWidth: 250,
     },
     lixTitulo: {
         fontSize: 16,

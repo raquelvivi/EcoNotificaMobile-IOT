@@ -1,9 +1,17 @@
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, Button,  } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 
 import Lixeiras from '../components/lixeira'
 
+import { Pessoa } from '../type'
+
 export default function Index() {
+  const router = useRouter();
+  
+  const [dados, setDados] = useState<Pessoa[]>([]);
 
 // comente todas as lixeiras para ver frame 8 do figma (pedido de cadastro)
   const listaLixeiras = [
@@ -15,6 +23,13 @@ export default function Index() {
 
   ]
 
+  // useEffect(() => { //pesquisa para colocar lixeiras
+  //   fetch('http://192.168.18.11:8080/api/fixa') // use o IP local da sua máquina
+  //     .then((res) => res.json())
+  //     .then((data: Pessoa[]) => setDados(data))
+  //     .catch((err) => console.log(err));
+  // }, []);
+ 
 
   return (
     //dando cor de fundo
@@ -26,14 +41,10 @@ export default function Index() {
 
       <View style={[styles.main]}>
 
-        {/* Tela com lixeiras */}
-
         <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
 
-
-
+        {/* <Link href="/login"><Text style={[styles.texto]}>Cadastro</Text></Link> */}
         
-
 
           {listaLixeiras.length == 0 ? (
           <View style={[styles.main]}>
@@ -51,22 +62,10 @@ export default function Index() {
           ))
           )}
 
-
-        
-
-
         <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
-
-
-
-
-        {/* Tela sem lixeiras
-
-        
-
-         */}
-
       </View >
+
+      
     </LinearGradient>
 
 
@@ -83,27 +82,25 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    marginTop: 20,
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
   },
   img: {
-    top: 0,
     width: 250,
     height: 250,
-    marginTop: 10,
+
   },
   img2: {
     position: "absolute",
-    top: 0,
+    top: 40,
     padding: 10,
     height: 65,
     width: 240,
 
   },
   texto: {
-    marginTop: 50,
+    marginTop: 100,
     fontSize: 20,
     marginLeft: 50,
     marginRight: 50,
@@ -119,7 +116,7 @@ const styles = StyleSheet.create({
   icone: {
     position: "absolute",
     bottom: 0,
-    marginBottom: 10,
+    marginBottom: 30,
     width: 40,
     height: 40,
   },

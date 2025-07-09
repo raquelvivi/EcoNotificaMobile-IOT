@@ -18,6 +18,7 @@
   "homepage": "https://github.com/raquelvivi/EcoNotificaMobile-IOT#readme",
   "dependencies": {
     "concurrently": "^9.2.0",
+    "expo-linear-gradient": "^14.1.5",
     "nodemon": "^3.1.10"
   }
 }

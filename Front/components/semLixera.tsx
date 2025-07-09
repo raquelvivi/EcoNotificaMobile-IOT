@@ -1,12 +1,9 @@
 import { Text, View, Image, StyleSheet } from "react-native";
-import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Index() {
   return (
 
       <View style={[styles.main]}>
-
-        <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
 
 
         <Image source={require('../assets/images/reciclando.png')} style={[styles.img]} />
@@ -15,9 +12,7 @@ export default function Index() {
         <Text style={[styles.texto]}>Você Ainda Não Começou a Reciclar</Text>
 
 
-          <Text style={[styles.botao]}>Vamos Reciclar?</Text>
-
-        <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
+        <Text style={[styles.botao]}>Vamos Reciclar?</Text>
 
 
 
