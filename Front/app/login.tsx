@@ -7,32 +7,30 @@ export default function SecondTab() {
       colors={['#FFFFFF', '#80BC82']}
       style={styles.body}
     >
+      <Image
+        source={require('../assets/images/logo_login.png')}
+        style={styles.logo}
+      />
 
-        <Image
-          source={require('../assets/images/logo_login.png')}
-          style={styles.logo}
-        />
+      <View style={styles.loginBox}>
+        <ScrollView contentContainerStyle={styles.formContainer}>
 
-        <View style={styles.loginBox}>
-        <ScrollView >
+          <FormField label="Nome:" />
+          <FormField label="Email:" keyboardType="email-address" />
+          <FormField label="Senha:" secureTextEntry />
+          <FormField label="CEP:" keyboardType="numeric" />
+          <FormField label="País:" />
+          <FormField label="Estado:" />
+          <FormField label="Cidade:" />
+          <FormField label="Bairro:" />
 
-            <FormField label="Nome:" />
-            <FormField label="Email:" keyboardType="email-address" />
-            <FormField label="Senha:" secureTextEntry />
-            <FormField label="CEP:" keyboardType="numeric" />
-            <FormField label="País:" />
-            <FormField label="Estado:" />
-            <FormField label="Cidade:" />
-            <FormField label="Bairro:" />
-
-          </ScrollView>
-        </View>
-
+        </ScrollView>
+      </View>
     </LinearGradient>
   );
 }
 
-function FormField({ label, ...props }) { //label vai ser label: pessoa (depois de criar o arquivo type com as variaveis do bd)
+function FormField({ label, ...props }) {
   return (
     <View style={styles.fieldContainer}>
       <Text style={styles.label}>{label}</Text>
@@ -55,7 +53,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   loginBox: {
-    marginTop: 100,
     width: 320,
     backgroundColor: '#80bc82dd', // verde mais escuro com transparência
     borderRadius: 12,
