@@ -1,4 +1,3 @@
-import { Int32 } from "react-native/Libraries/Types/CodegenTypes";
 
 export type Pessoa = {
     id: string,
@@ -7,5 +6,14 @@ export type Pessoa = {
     senha: string,
     tipo: string,
     bairro: string,
-    cidade: Int32
+    cidade: number
+}
+
+export type Lixeira = {
+    id: number,
+    nome: string,
+    situacao: string,
+    ip: string,
+    latitude: number,
+    longitude: number,
 } 

@@ -1,20 +1,22 @@
 
 import { View, StyleSheet, Text } from 'react-native';
 
+import { Lixeira } from '../type'
 
-export default function Lixeiras({ dado = {} }) {
+export default function Lixeiras({ dado }: { dado: Lixeira | null }) {
 
+    if (dado) {
+        return (
 
-    return (
-
-        <View style={[styles.lixeira]}>
-            <Text style={[styles.lixTitulo]}>{dado.nome}</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={[styles.lixTitulo]}>Nivel: </Text>
-                <Text style={[styles.lixTitulo, { color: "#FF8914" }]}> {dado.nivel} </Text>
+            <View style={[styles.lixeira]}>
+                <Text style={[styles.lixTitulo]}>{dado.nome}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={[styles.lixTitulo]}>Nivel: </Text>
+                    <Text style={[styles.lixTitulo, { color: "#FF8914" }]}> {dado.situacao} </Text>
+                </View>
             </View>
-        </View>
-    );
+        );
+    }
 
     //Parcial = #FF8914
     //Cheia = #EE0000
@@ -23,7 +25,7 @@ export default function Lixeiras({ dado = {} }) {
 
 const styles = StyleSheet.create({
 
-   
+
     lixeira: {
         marginBottom: 20,
         backgroundColor: "#ffffff",
