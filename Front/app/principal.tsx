@@ -8,17 +8,18 @@ import Lixeiras from '../components/lixeira'
 
 import { Lixeira } from '../type'
 
+import { API_BASE_URL } from '../../config/api'
+
 export default function Index() {
   const router = useRouter();
   
   const [dados, setDados] = useState<Lixeira[]>([]);
   
   useEffect(() => { //pesquisa para colocar lixeiras
-    fetch('http://192.168.18.52:8080/api/lixeira') // use o IP local da sua máquina ou suba o back para o render (back online)
+      fetch(`${API_BASE_URL}/api/lixeira`) // use o IP local da sua máquina ou suba o back para o render (back online)
       .then((res) => res.json())
       .then((data: Lixeira[]) => setDados(data))
       .catch((err) => console.log(err));
-
   }, []);
 
 
