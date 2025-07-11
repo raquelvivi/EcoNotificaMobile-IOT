@@ -22,7 +22,6 @@ export default function SelecionarPerfil() {
           <Card title="Comunidade" img={require('../assets/images/comunidade.png')} onPress={() => router.push('/login?tipo=comunidade')} />
         </View>
       </View>
-
       <Image source={require('../assets/images/icone_reciclagem.png')} style={styles.recicleIcon} />
     </LinearGradient>
   );
