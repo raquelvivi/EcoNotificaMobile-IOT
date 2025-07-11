@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 console.log("Conectando ao banco em:", process.env.DB_HOST);
 const { Pool } = require("pg");
 
