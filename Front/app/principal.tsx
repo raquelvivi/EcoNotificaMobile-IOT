@@ -16,7 +16,7 @@ export default function Index() {
   const [dados, setDados] = useState<Lixeira[]>([]);
   
   useEffect(() => { //pesquisa para colocar lixeiras
-      fetch(`${API_BASE_URL}/api/lixeira`) // use o IP local da sua máquina ou suba o back para o render (back online)
+      fetch(`${API_BASE_URL}/api/lixeira`) 
       .then((res) => res.json())
       .then((data: Lixeira[]) => setDados(data))
       .catch((err) => console.log(err));

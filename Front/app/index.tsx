@@ -26,7 +26,7 @@ export default function Index() {
 
     {/* se a pessoa ja tiver feito login vai para as lixeiras (principal) se não vai cadastrar */}
     
-      <Link href="/principal" style={{marginTop: 30}}>  
+      <Link href="/principal" style={{marginTop: 30, padding: 10, backgroundColor: "#ffffff", borderRadius: 5}}>  
         <Text style={[styles.botao]} >ENTRAR</Text>
       </Link>
 
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#2E9031",
   },
   img: {
-    marginTop: 150,
+    marginTop: 250,
     width: 200,
     height: 200,
 
@@ -68,11 +68,10 @@ const styles = StyleSheet.create({
   },
   botao: {
     
-    borderRadius: 5,
-    backgroundColor: '#ffffff',
-    padding: 10,
+    
+
     fontSize: 15,
-    fontFamily: "Inder"
+
 
   },
   icone: {
