@@ -8,7 +8,7 @@ import Lixeiras from '../components/lixeira'
 
 import { Lixeira } from '../type'
 
-import { API_BASE_URL } from '../../config/api'
+import { API_BASE_URL } from '../conf/api'
 
 export default function Index() {
   const router = useRouter();
@@ -37,8 +37,6 @@ export default function Index() {
 
         <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
 
-        
-        
         <View style={[styles.lista]}>
         
         {dados.length == 0 ? (
