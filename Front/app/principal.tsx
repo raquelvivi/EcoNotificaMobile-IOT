@@ -1,4 +1,4 @@
-import { Text, View, Image, StyleSheet, Button, ScrollView  } from "react-native";
+import { Text, View, Image, StyleSheet, Button, ScrollView, Dimensions } from "react-native";
 import React, { useState, useEffect } from 'react';
 import { Link } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,13 +10,15 @@ import { Lixeira } from '../type'
 
 import { API_BASE_URL } from '../conf/api'
 
+var deviceWidth = Dimensions.get('window').width;
+
 export default function Index() {
   const router = useRouter();
-  
+
   const [dados, setDados] = useState<Lixeira[]>([]);
-  
+
   useEffect(() => { //pesquisa para colocar lixeiras
-      fetch(`${API_BASE_URL}/api/lixeira`) 
+    fetch(`${API_BASE_URL}/api/lixeira`)
       .then((res) => res.json())
       .then((data: Lixeira[]) => setDados(data))
       .catch((err) => console.log(err));
@@ -30,37 +32,81 @@ export default function Index() {
       colors={['#FFFFFF', '#80BC82']} // branco para verde 
       style={styles.body}
     >
-      <ScrollView>
+      <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
 
 
-      <View style={[styles.main]}>
 
-        <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
 
-        <View style={[styles.lista]}>
-        
-        {dados.length == 0 ? (
-          <View style={[styles.main]}>
-              <Image source={require('../assets/images/reciclando.png')} style={[styles.img]} />
+        <View style={[styles.main]}>
 
-              <Text style={[styles.texto]}>Você Ainda Não Começou a Reciclar</Text>
+          <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
 
-              <Text style={[styles.botao]}>Vamos Reciclar?</Text>
-            </View>
-            ) : (dados.slice(0, 6).map((item:Lixeira, index) => (
+          <View style={[styles.lista]}>
 
-            <View key={index}>
-              <Lixeiras dado={item}/>
-            </View>
-          ))
-          )}
-        </View>
+           <Text> Area</Text>
+          </View>
 
-        <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
+          <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
 
-      </View >
+        </View >
 
-        </ScrollView>
+
+
+
+
+
+        <View style={[styles.main]}>
+
+          <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
+
+          <View style={[styles.lista]}>
+
+            {dados.length == 0 ? (
+              <View style={[styles.main]}>
+                <Image source={require('../assets/images/reciclando.png')} style={[styles.img]} />
+
+                <Text style={[styles.texto]}>Você Ainda Não Começou a Reciclar</Text>
+
+                <Text style={[styles.botao]}>Vamos Reciclar?</Text>
+              </View>
+            ) : (dados.slice(0, 6).map((item: Lixeira, index) => (
+
+              <View key={index}>
+                <Lixeiras dado={item} />
+              </View>
+            ))
+            )}
+          </View>
+
+          <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
+
+        </View >
+
+
+
+
+
+
+
+
+
+        <View style={[styles.main]}>
+
+          <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
+
+          <View style={[styles.lista]}>
+
+            <Image source={require('../assets/images/reciclar.gif')} style={[styles.img2]} />
+            <Text> mapa</Text>
+          </View>
+
+          <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
+
+        </View >
+
+
+
+      </ScrollView>
 
     </LinearGradient>
 
@@ -74,13 +120,16 @@ const styles = StyleSheet.create({
 
   body: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
 
   },
   main: {
-    flex: 1,
+    width: deviceWidth,
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
+    flexDirection: 'row'
   },
   img: {
     width: 250,
@@ -110,16 +159,16 @@ const styles = StyleSheet.create({
 
   },
   icone: {
-    //position: "absolute",
+    position: "absolute",
     bottom: 0,
     marginTop: 30,
-    marginBottom: 30,
+    marginBottom: 60,
     width: 40,
     height: 40,
   },
-  
+
   lista: {
-    marginTop: 200,
+    marginTop: 40,
   },
 
 
