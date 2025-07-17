@@ -1,9 +1,37 @@
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 
 export default function SenhaEmail() {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('https://econotifica-api.onrender.com/api/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, senha }),
+      });
+  
+      if (!response.ok) {
+        Alert.alert('Erro', 'Credenciais inválidas ou erro na autenticação');
+        return;
+      }
+  
+      const data = await response.json();
+      console.log('Usuário logado:', data);
+      router.push('/quem'); // redirecionar após login bem-sucedido
+    } catch (error) {
+      console.error('Erro no login:', error);
+      Alert.alert('Erro', 'Não foi possível conectar ao servidor');
+    }
+  };
+  
 
   return (
     <LinearGradient colors={['#ffffff', '#7BBF8C']} style={styles.body}>
@@ -14,12 +42,26 @@ export default function SenhaEmail() {
 
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Email:</Text>
-          <TextInput style={styles.input} keyboardType="email-address" placeholder="" placeholderTextColor="#ffffff" />
+          <TextInput
+            style={styles.input}
+            keyboardType="email-address"
+            placeholder=""
+            placeholderTextColor="#ffffff"
+            value={email}
+            onChangeText={setEmail}
+          />
         </View>
 
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Senha:</Text>
-          <TextInput style={styles.input} secureTextEntry placeholder="" placeholderTextColor="#ffffff" />
+          <TextInput
+            style={styles.input}
+            secureTextEntry
+            placeholder=""
+            placeholderTextColor="#ffffff"
+            value={senha}
+            onChangeText={setSenha}
+          />
         </View>
       </View>
 
@@ -27,7 +69,7 @@ export default function SenhaEmail() {
         <Text style={styles.link}>Esqueceu sua senha?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.linkBox} onPress={() => router.push('/quem')}>
+      <TouchableOpacity style={styles.linkBox} onPress={handleLogin}>
         <Text style={styles.buttonText}>Pronto</Text>
       </TouchableOpacity>
 
@@ -37,6 +79,7 @@ export default function SenhaEmail() {
 }
 
 const styles = StyleSheet.create({
+  // ... mantém o CSS exatamente como está, sem mudanças ...
   body: {
     flex: 1,
     alignItems: 'center',
