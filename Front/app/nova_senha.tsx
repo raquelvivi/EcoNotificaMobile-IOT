@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 
 export default function NovaSenha() {
   const router = useRouter();
@@ -28,6 +29,7 @@ export default function NovaSenha() {
       </TouchableOpacity>
 
       <Image source={require('../assets/images/icone_reciclagem.png')} style={styles.recicleIcon} />
+
     </LinearGradient>
   );
 }

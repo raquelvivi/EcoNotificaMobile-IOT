@@ -6,12 +6,15 @@ import { useRouter } from 'expo-router';
 
 import Lixeiras from '../components/lixeira'
 import Grupo from '../components/grupos'
+import IconeLink from '../components/iconeLink'
 
 import { Lixeira } from '../type'
 
 import { API_BASE_URL } from '../conf/api'
 
 var deviceWidth = Dimensions.get('window').width;
+
+
 
 export default function Index() {
   const router = useRouter();
@@ -23,6 +26,7 @@ export default function Index() {
       .then((res) => res.json())
       .then((data: Lixeira[]) => setDados(data))
       .catch((err) => console.log(err));
+      console.log(dados)
   }, []);
 
 
@@ -50,7 +54,7 @@ export default function Index() {
 
                 <Text style={[styles.botao]}>Vamos Reciclar?</Text>
               </View>
-            ) : (dados.slice(0, 6).map((item: Lixeira, index) => (
+            ) : (dados.slice(15, 20).map((item: Lixeira, index) => (
 
               <View key={index}>
                 <Lixeiras dado={item} />
@@ -102,6 +106,9 @@ export default function Index() {
 
             <Image source={require('../assets/images/reciclar.gif')} style={[styles.img2]} />
             <Text> mapa</Text>
+            <View style={{marginTop: 500}}>
+            {/* <IconeLink/> */}
+            </View>
           </View>
 
           <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
