@@ -18,6 +18,11 @@ export default function RootLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="login" />
       <Stack.Screen name="principal" />
+      <Stack.Screen name="dadosLixeira" />
+      <Stack.Screen name="quem" />
+      <Stack.Screen name="cadastroUser" />
+      <Stack.Screen name="nova_senha" />
+      <Stack.Screen name="senha_email" />
     </Stack>
   );
 }

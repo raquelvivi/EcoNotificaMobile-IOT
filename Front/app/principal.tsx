@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 
 import Lixeiras from '../components/lixeira'
+import Grupo from '../components/grupos'
 
 import { Lixeira } from '../type'
 
@@ -33,26 +34,6 @@ export default function Index() {
       style={styles.body}
     >
       <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
-
-
-
-
-        <View style={[styles.main]}>
-
-          <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
-
-          <View style={[styles.lista]}>
-
-           <Text> Area</Text>
-          </View>
-
-          <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
-
-        </View >
-
-
-
-
 
 
         <View style={[styles.main]}>
@@ -86,8 +67,31 @@ export default function Index() {
 
 
 
+        <View style={[styles.main]}>
+
+          <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
+
+          <View style={[styles.conteine, styles.lista]}>
+
+            <Grupo Nome="area 1" />
+            <Grupo Nome="area 2" />
+            <Grupo Nome="area 3" />
+            <Grupo Nome="area 4" />
+            <Grupo Nome="area 5" />
+            
+
+           
+          </View>
+
+          <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
+
+        </View >
 
 
+
+
+
+        
 
 
         <View style={[styles.main]}>
@@ -129,7 +133,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
-    flexDirection: 'row'
+    // flexDirection: 'row'
   },
   img: {
     width: 250,
@@ -167,10 +171,23 @@ const styles = StyleSheet.create({
     height: 40,
   },
 
+
+
+
+
   lista: {
     marginTop: 40,
   },
 
+  conteine:{
+    backgroundColor: "#ffffff",
+    padding: 20,
+    borderRadius: 20,
+    minHeight: 200,
+    maxHeight: 500,
+
+
+  }
 
 });
 
