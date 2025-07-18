@@ -1,10 +1,41 @@
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { Link } from 'expo-router';
+import { useState } from 'react';
 
 export default function NovaSenha() {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [novaSenha, setNovaSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
+
+  const handleTrocarSenha = async () => {
+    if (novaSenha !== confirmarSenha) {
+      Alert.alert("Erro", "As senhas não coincidem!");
+      return;
+    }
+
+    try {
+      const response = await fetch('https://econotifica-api.onrender.com/api/user/senha', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, novaSenha }),
+      });
+
+      if (!response.ok) {
+        Alert.alert("Erro", "Não foi possível trocar a senha.");
+        return;
+      }
+
+      Alert.alert("Sucesso", "Senha atualizada com sucesso!");
+      router.push('/senha_email'); // redirecionar pro login
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Erro", "Problema ao conectar com o servidor.");
+    }
+  };
 
   return (
     <LinearGradient colors={['#ffffff', '#7BBF8C']} style={styles.body}>
@@ -14,22 +45,26 @@ export default function NovaSenha() {
         <Text style={styles.loginTitle}>Nova senha</Text>
 
         <View style={styles.inputGroup}>
+          <Text style={styles.label}>Email:</Text>
+          <TextInput style={styles.input} value={email} onChangeText={setEmail} />
+        </View>
+
+        <View style={styles.inputGroup}>
           <Text style={styles.label}>Nova senha:</Text>
-          <TextInput style={styles.input} secureTextEntry placeholder="" placeholderTextColor="#ffffff" />
+          <TextInput style={styles.input} secureTextEntry value={novaSenha} onChangeText={setNovaSenha} />
         </View>
 
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Reescreva:</Text>
-          <TextInput style={styles.input} secureTextEntry placeholder="" placeholderTextColor="#ffffff" />
+          <TextInput style={styles.input} secureTextEntry value={confirmarSenha} onChangeText={setConfirmarSenha} />
         </View>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/senha_email')}>
+      <TouchableOpacity style={styles.button} onPress={handleTrocarSenha}>
         <Text style={styles.buttonText}>Pronto</Text>
       </TouchableOpacity>
 
       <Image source={require('../assets/images/icone_reciclagem.png')} style={styles.recicleIcon} />
-
     </LinearGradient>
   );
 }
