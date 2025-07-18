@@ -36,7 +36,7 @@ nome varchar(100),
 pessoa int, 
 cidade int,
 FOREIGN KEY (pessoa) REFERENCES pessoa (id),
-FOREIGN KEY (cidade) REFERENCES cidade (id)) )
+FOREIGN KEY (cidade) REFERENCES cidade (id)) 
 
 
 

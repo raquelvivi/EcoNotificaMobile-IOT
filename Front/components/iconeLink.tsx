@@ -93,7 +93,7 @@ const IconeLink = () => {
             </Animated.View>
 
             <Animated.View style={[styles.segundButton, styles.border, segundAnimateStyles]}>
-                <Link href="/quem" >
+                <Link href="/mapa" >
                     <AntDesignIcons name="user" size={30} color="#ffffff" />
                 </Link>
                 {/* poweroff para sair do email*/}

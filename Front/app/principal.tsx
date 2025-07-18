@@ -3,17 +3,19 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import MapView, { Marker } from 'react-native-maps';
 
-import Lixeiras from '../components/lixeira'
-import Grupo from '../components/grupos'
-import IconeLink from '../components/iconeLink'
+
+import Lixeiras from '../components/lixeira';
+import Grupo from '../components/grupos';
+import IconeLink from '../components/iconeLink';
+
 
 import { Lixeira } from '../type'
 
 import { API_BASE_URL } from '../conf/api'
 
-var deviceWidth = Dimensions.get('window').width;
-
+const deviceWidth = Dimensions.get('window').width;
 
 
 export default function Index() {
@@ -102,13 +104,28 @@ export default function Index() {
 
           <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
 
-          <View style={[styles.lista]}>
 
-            <Image source={require('../assets/images/reciclar.gif')} style={[styles.img2]} />
-            <Text> mapa</Text>
-            <View style={{ marginTop: 500 }}>
+          <View style={styles.quadrado}>
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: -22.9528074,
+                longitude: -43.214294,
+                latitudeDelta: 0.01, // quanto menor, mais zoom
+                longitudeDelta: 0.01,
+              }}
+            >
+              <Marker
+                coordinate={{ latitude: -22.9528074, longitude: -43.214294 }}
+                title="Cristo Redentor"
+                description="Estátua do Cristo Redentor"
 
-            </View>
+              >
+                <View style={styles.markerCustom}>
+                  <Text style={{ fontSize: 24 }}>👻</Text>
+                </View>
+                </Marker>
+            </MapView>
           </View>
 
           <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
@@ -198,7 +215,29 @@ const styles = StyleSheet.create({
     maxHeight: 500,
 
 
-  }
+  },
+
+  map: {
+    width: 300,
+    height: 300,
+    zIndex: 2,
+    position: "absolute",
+
+  },
+  quadrado: {
+    width: 300,
+    height: 300,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#000',
+    overflow: 'hidden', // ESSENCIAL para aplicar o borderRadius no MapView
+    alignSelf: 'center',
+  },
+  markerCustom: {
+  padding: 5,
+
+}
+
 
 });
 
