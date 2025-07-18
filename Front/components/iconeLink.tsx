@@ -6,10 +6,21 @@ import Animated, {
     useAnimatedStyle,
     withTiming,
     interpolate,
+    withDelay,
+    WithSpringConfig,
+    withSpring,
+    Easing
 } from 'react-native-reanimated';
+import { Link } from 'expo-router';
+
+import Feather from 'react-native-vector-icons/Feather';
+import { opacity } from 'react-native-reanimated/lib/typescript/Colors';
+
+
+
+
 
 //log-in
-
 //log-out
 
 const DURATION = 400;
@@ -21,12 +32,36 @@ const IconeLink = () => {
 
     const isOpened = useRef(false);
     const transYCamera = useSharedValue(0);
+    const transYsegund = useSharedValue(0);
+
+    const click = useSharedValue(0);
+
+
+    const opacity = useSharedValue(1);
 
     const cameraAnimateStyles = useAnimatedStyle(() => {
         return {
             transform: [
                 { translateY: transYCamera.value },
-                {scale: interpolate(transYCamera.value, [TRANSLATE_Y, 0], [1,0])}
+                { scale: interpolate(transYCamera.value, [TRANSLATE_Y, 0], [1, 0]) }
+            ],
+        };
+    }, []);
+
+    const segundAnimateStyles = useAnimatedStyle(() => {
+        return {
+            transform: [
+                { translateY: interpolate(transYsegund.value, [TRANSLATE_Y, 0], [TRANSLATE_Y / 2, 10]) },
+                { translateX: interpolate(transYsegund.value, [TRANSLATE_Y, 0], [-60, 0]) },
+                { scale: interpolate(transYsegund.value, [TRANSLATE_Y, 0], [1, 0]) }
+            ],
+        };
+    }, []);
+
+    const plusAnimateStyles = useAnimatedStyle(() => {
+        return {
+            transform: [
+                { rotateZ: interpolate(opacity.value, [0, 1], [-90, 0]).toString() + 'deg' },
             ],
         };
     }, []);
@@ -42,24 +77,49 @@ const IconeLink = () => {
                         : styles.plusButton
                 }
             >
-                <AntDesignIcons name="plus" size={36} color="white" />
+                <Animated.View style={[plusAnimateStyles]}>
+                    <AntDesignIcons name="plus" size={36} color="white" />
+                </Animated.View>
+
             </Pressable>
 
+
             <Animated.View style={[styles.cameraButton, cameraAnimateStyles]}>
-                <AntDesignIcons name="camera" size={28} color="white" />
+                <Link href="/senha_email" >
+                    <Feather name="user-plus" size={30} color="white" />
+                </Link>
+                {/* user-plus do fateer para entrar e user , log-in*/}
+
+            </Animated.View>
+
+            <Animated.View style={[styles.segundButton, segundAnimateStyles]}>
+                <Link href="/quem" >
+                    <AntDesignIcons name="user" size={30} color="white" />
+                </Link>
+                {/* poweroff para sair do email*/}
+
             </Animated.View>
         </View>
     );
 
     function handlePress() {
-    if (isOpened.current) {
-        transYCamera.value = withTiming(0, { duration: DURATION });
-    } else {
-        transYCamera.value = withTiming(TRANSLATE_Y, { duration: DURATION });
-    }
+        if (isOpened.current) {
 
-    isOpened.current = !isOpened.current;
-}
+            transYsegund.value = withTiming(0, { duration: DURATION, easing: Easing.bezier(0.36, 0, 0.66, 0.56) });
+            transYCamera.value = withDelay(DURATION / 1.5, withTiming(10, { duration: DURATION, easing: Easing.bezier(0.36, 0, 0.66, 0.56) }));
+            opacity.value = withTiming(1, { duration: DURATION })
+
+        } else {
+            const config: WithSpringConfig = { damping: 12 } // serve para a parada ao abrir, tipo um pong que o objeto da
+            transYCamera.value = withSpring(TRANSLATE_Y, config);
+            transYsegund.value = withDelay(DURATION / 2, withSpring(TRANSLATE_Y, config));
+
+            opacity.value = withTiming(0, { duration: DURATION })
+
+        }
+
+        isOpened.current = !isOpened.current;
+    }
 };
 
 
@@ -69,8 +129,9 @@ const IconeLink = () => {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        bottom: 50,
-        right: 30,
+        bottom: 90,
+        right: -150,
+
     },
     plusButton: {
         width: 60,
@@ -79,6 +140,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         justifyContent: 'center',
         alignItems: 'center',
+        zIndex: 2,
     },
 
     cameraButton: {
@@ -89,7 +151,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        zIndex: -1,
+        zIndex: 1,
+    },
+    segundButton: {
+        width: 50,
+        height: 50,
+        backgroundColor: '#ed2800',
+        borderRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        zIndex: 1,
     },
 });
 

@@ -26,7 +26,7 @@ export default function Index() {
       .then((res) => res.json())
       .then((data: Lixeira[]) => setDados(data))
       .catch((err) => console.log(err));
-      console.log(dados)
+    console.log(dados)
   }, []);
 
 
@@ -82,9 +82,9 @@ export default function Index() {
             <Grupo Nome="area 3" />
             <Grupo Nome="area 4" />
             <Grupo Nome="area 5" />
-            
 
-           
+
+
           </View>
 
           <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
@@ -95,7 +95,7 @@ export default function Index() {
 
 
 
-        
+
 
 
         <View style={[styles.main]}>
@@ -106,8 +106,8 @@ export default function Index() {
 
             <Image source={require('../assets/images/reciclar.gif')} style={[styles.img2]} />
             <Text> mapa</Text>
-            <View style={{marginTop: 500}}>
-            {/* <IconeLink/> */}
+            <View style={{ marginTop: 500 }}>
+
             </View>
           </View>
 
@@ -118,6 +118,10 @@ export default function Index() {
 
 
       </ScrollView>
+
+      <View>
+        <IconeLink />
+      </View>
 
     </LinearGradient>
 
@@ -186,7 +190,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
 
-  conteine:{
+  conteine: {
     backgroundColor: "#ffffff",
     padding: 20,
     borderRadius: 20,
