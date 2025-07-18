@@ -74,27 +74,27 @@ const IconeLink = () => {
                 style={({ pressed }) =>
                     pressed
                         ? [styles.plusButton, { transform: [{ scale: 0.9 }] }]
-                        : styles.plusButton
+                        : [styles.plusButton, styles.border]
                 }
             >
                 <Animated.View style={[plusAnimateStyles]}>
-                    <AntDesignIcons name="plus" size={36} color="white" />
+                    <AntDesignIcons name="plus" size={36} color="#ffffff" />
                 </Animated.View>
 
             </Pressable>
 
 
-            <Animated.View style={[styles.cameraButton, cameraAnimateStyles]}>
+            <Animated.View style={[styles.cameraButton, styles.border, cameraAnimateStyles]}>
                 <Link href="/senha_email" >
-                    <Feather name="user-plus" size={30} color="white" />
+                    <Feather name="user-plus" size={30} color="#ffffff" />
                 </Link>
                 {/* user-plus do fateer para entrar e user , log-in*/}
 
             </Animated.View>
 
-            <Animated.View style={[styles.segundButton, segundAnimateStyles]}>
+            <Animated.View style={[styles.segundButton, styles.border, segundAnimateStyles]}>
                 <Link href="/quem" >
-                    <AntDesignIcons name="user" size={30} color="white" />
+                    <AntDesignIcons name="user" size={30} color="#ffffff" />
                 </Link>
                 {/* poweroff para sair do email*/}
 
@@ -136,18 +136,15 @@ const styles = StyleSheet.create({
     plusButton: {
         width: 60,
         height: 60,
-        backgroundColor: '#ed2800',
-        borderRadius: 30,
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 2,
+        
     },
 
     cameraButton: {
         width: 50,
         height: 50,
-        backgroundColor: '#ed2800',
-        borderRadius: 30,
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
@@ -156,13 +153,19 @@ const styles = StyleSheet.create({
     segundButton: {
         width: 50,
         height: 50,
-        backgroundColor: '#ed2800',
-        borderRadius: 30,
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
         zIndex: 1,
+        
     },
+    border:{
+        // borderWidth: 1,
+        // borderColor: "#ffffff",
+        borderRadius: 30,
+        backgroundColor: '#2E9031',
+
+    }
 });
 
 export default IconeLink;
