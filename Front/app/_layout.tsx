@@ -23,6 +23,7 @@ export default function RootLayout() {
       <Stack.Screen name="cadastroUser" />
       <Stack.Screen name="nova_senha" />
       <Stack.Screen name="senha_email" />
+      <Stack.Screen name="mapa" />
     </Stack>
   );
 }
