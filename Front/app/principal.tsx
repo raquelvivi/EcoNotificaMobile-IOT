@@ -111,7 +111,7 @@ export default function Index() {
 
 
           <View style={styles.quadrado}>
-            <MapView
+            { <MapView
               style={styles.map}
               initialRegion={{
                 latitude: -22.9528074,
@@ -133,7 +133,7 @@ export default function Index() {
                 </Marker>
               ))}
 
-            </MapView>
+            </MapView>}
           </View>
 
           <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
