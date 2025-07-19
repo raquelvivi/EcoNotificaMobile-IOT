@@ -33,7 +33,12 @@ export default function Index() {
 
 
 
+
+
   return (
+
+
+
     //dando cor de fundo
     <LinearGradient
       colors={['#FFFFFF', '#80BC82']} // branco para verde 
@@ -115,16 +120,19 @@ export default function Index() {
                 longitudeDelta: 0.01,
               }}
             >
-              <Marker
-                coordinate={{ latitude: -22.9528074, longitude: -43.214294 }}
-                title="Cristo Redentor"
-                description="Estátua do Cristo Redentor"
-
-              >
-                <View style={styles.markerCustom}>
-                  <Text style={{ fontSize: 24 }}>👻</Text>
-                </View>
+              {dados.map((item: Lixeira, index) => (
+                <Marker
+                  key={index}
+                  coordinate={{ latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude) }}
+                  title={`${item.nome}`}
+                  description={`ID: ${item.id}`}
+                >
+                  <View style={styles.markerCustom}>
+                    <Text style={{ fontSize: 24 }}>🔥</Text>
+                  </View>
                 </Marker>
+              ))}
+
             </MapView>
           </View>
 
