@@ -1,25 +1,34 @@
-import { Text, View, Image, StyleSheet, Button, ScrollView  } from "react-native";
+import { Text, View, Image, StyleSheet, Button, ScrollView, Dimensions } from "react-native";
 import React, { useState, useEffect } from 'react';
 import { Link } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import MapView, { Marker } from 'react-native-maps';
 
-import Lixeiras from '../components/lixeira'
+
+import Lixeiras from '../components/lixeira';
+import Grupo from '../components/grupos';
+import IconeLink from '../components/iconeLink';
+
 
 import { Lixeira } from '../type'
 
 import { API_BASE_URL } from '../conf/api'
 
+const deviceWidth = Dimensions.get('window').width;
+
+
 export default function Index() {
   const router = useRouter();
-  
+
   const [dados, setDados] = useState<Lixeira[]>([]);
-  
+
   useEffect(() => { //pesquisa para colocar lixeiras
-      fetch(`${API_BASE_URL}/api/lixeira`) 
+    fetch(`${API_BASE_URL}/api/lixeira`)
       .then((res) => res.json())
       .then((data: Lixeira[]) => setDados(data))
       .catch((err) => console.log(err));
+    console.log(dados)
   }, []);
 
 
@@ -30,37 +39,106 @@ export default function Index() {
       colors={['#FFFFFF', '#80BC82']} // branco para verde 
       style={styles.body}
     >
-      <ScrollView>
+      <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
 
 
-      <View style={[styles.main]}>
+        <View style={[styles.main]}>
 
-        <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
+          <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
 
-        <View style={[styles.lista]}>
-        
-        {dados.length == 0 ? (
-          <View style={[styles.main]}>
-              <Image source={require('../assets/images/reciclando.png')} style={[styles.img]} />
+          <View style={[styles.lista]}>
 
-              <Text style={[styles.texto]}>Você Ainda Não Começou a Reciclar</Text>
+            {dados.length == 0 ? (
+              <View style={[styles.main]}>
+                <Image source={require('../assets/images/reciclando.png')} style={[styles.img]} />
 
-              <Text style={[styles.botao]}>Vamos Reciclar?</Text>
-            </View>
-            ) : (dados.slice(0, 6).map((item:Lixeira, index) => (
+                <Text style={[styles.texto]}>Você Ainda Não Começou a Reciclar</Text>
 
-            <View key={index}>
-              <Lixeiras dado={item}/>
-            </View>
-          ))
-          )}
-        </View>
+                <Text style={[styles.botao]}>Vamos Reciclar?</Text>
+              </View>
+            ) : (dados.slice(15, 20).map((item: Lixeira, index) => (
 
-        <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
+              <View key={index}>
+                <Lixeiras dado={item} />
+              </View>
+            ))
+            )}
+          </View>
 
-      </View >
+          <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
 
-        </ScrollView>
+        </View >
+
+
+
+
+
+        <View style={[styles.main]}>
+
+          <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
+
+          <View style={[styles.conteine, styles.lista]}>
+
+            <Grupo Nome="area 1" />
+            <Grupo Nome="area 2" />
+            <Grupo Nome="area 3" />
+            <Grupo Nome="area 4" />
+            <Grupo Nome="area 5" />
+
+
+
+          </View>
+
+          <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
+
+        </View >
+
+
+
+
+
+
+
+
+        <View style={[styles.main]}>
+
+          <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
+
+
+          <View style={styles.quadrado}>
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: -22.9528074,
+                longitude: -43.214294,
+                latitudeDelta: 0.01, // quanto menor, mais zoom
+                longitudeDelta: 0.01,
+              }}
+            >
+              <Marker
+                coordinate={{ latitude: -22.9528074, longitude: -43.214294 }}
+                title="Cristo Redentor"
+                description="Estátua do Cristo Redentor"
+
+              >
+                <View style={styles.markerCustom}>
+                  <Text style={{ fontSize: 24 }}>👻</Text>
+                </View>
+                </Marker>
+            </MapView>
+          </View>
+
+          <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
+
+        </View >
+
+
+
+      </ScrollView>
+
+      <View>
+        <IconeLink />
+      </View>
 
     </LinearGradient>
 
@@ -74,13 +152,16 @@ const styles = StyleSheet.create({
 
   body: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
 
   },
   main: {
-    flex: 1,
+    width: deviceWidth,
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
+    // flexDirection: 'row'
   },
   img: {
     width: 250,
@@ -110,17 +191,52 @@ const styles = StyleSheet.create({
 
   },
   icone: {
-    //position: "absolute",
+    position: "absolute",
     bottom: 0,
     marginTop: 30,
-    marginBottom: 30,
+    marginBottom: 60,
     width: 40,
     height: 40,
   },
-  
+
+
+
+
+
   lista: {
-    marginTop: 200,
+    marginTop: 40,
   },
+
+  conteine: {
+    backgroundColor: "#ffffff",
+    padding: 20,
+    borderRadius: 20,
+    minHeight: 200,
+    maxHeight: 500,
+
+
+  },
+
+  map: {
+    width: 300,
+    height: 300,
+    zIndex: 2,
+    position: "absolute",
+
+  },
+  quadrado: {
+    width: 300,
+    height: 300,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#000',
+    overflow: 'hidden', // ESSENCIAL para aplicar o borderRadius no MapView
+    alignSelf: 'center',
+  },
+  markerCustom: {
+  padding: 5,
+
+}
 
 
 });
