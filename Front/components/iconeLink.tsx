@@ -33,6 +33,7 @@ const IconeLink = () => {
     const isOpened = useRef(false);
     const transYCamera = useSharedValue(0);
     const transYsegund = useSharedValue(0);
+    const transYthree = useSharedValue(0);
 
     const click = useSharedValue(0);
 
@@ -42,7 +43,8 @@ const IconeLink = () => {
     const cameraAnimateStyles = useAnimatedStyle(() => {
         return {
             transform: [
-                { translateY: transYCamera.value },
+                { translateY: transYCamera.value +10 },
+                { translateX: interpolate(transYCamera.value, [TRANSLATE_Y, 0], [20, 0]) },
                 { scale: interpolate(transYCamera.value, [TRANSLATE_Y, 0], [1, 0]) }
             ],
         };
@@ -51,9 +53,19 @@ const IconeLink = () => {
     const segundAnimateStyles = useAnimatedStyle(() => {
         return {
             transform: [
-                { translateY: interpolate(transYsegund.value, [TRANSLATE_Y, 0], [TRANSLATE_Y / 2, 10]) },
-                { translateX: interpolate(transYsegund.value, [TRANSLATE_Y, 0], [-60, 0]) },
+                { translateY: interpolate(transYsegund.value, [TRANSLATE_Y, 0], [(TRANSLATE_Y / 2) - 15, 10]) },
+                { translateX: interpolate(transYsegund.value, [TRANSLATE_Y, 0], [-50, 0]) },
                 { scale: interpolate(transYsegund.value, [TRANSLATE_Y, 0], [1, 0]) }
+            ],
+        };
+    }, []);
+
+    const threeAnimateStyles = useAnimatedStyle(() => {
+        return {
+            transform: [
+                { translateY: interpolate(transYthree.value, [TRANSLATE_Y, 0], [(TRANSLATE_Y / 2)+50, 10]) },
+                { translateX: interpolate(transYthree.value, [TRANSLATE_Y, 0], [-80, 0]) },
+                { scale: interpolate(transYthree.value, [TRANSLATE_Y, 0], [1, 0]) }
             ],
         };
     }, []);
@@ -84,7 +96,7 @@ const IconeLink = () => {
             </Pressable>
 
 
-            <Animated.View style={[styles.cameraButton, styles.border, cameraAnimateStyles]}>
+            <Animated.View style={[styles.Button, styles.border, cameraAnimateStyles]}>
                 <Link href="/senha_email" >
                     <Feather name="user-plus" size={30} color="#ffffff" />
                 </Link>
@@ -92,9 +104,18 @@ const IconeLink = () => {
 
             </Animated.View>
 
-            <Animated.View style={[styles.segundButton, styles.border, segundAnimateStyles]}>
-                <Link href="/mapa" >
+            <Animated.View style={[styles.Button, styles.border, segundAnimateStyles]}>
+                <Link href="/quem" >
                     <AntDesignIcons name="user" size={30} color="#ffffff" />
+                </Link>
+                {/* poweroff para sair do email*/}
+
+            </Animated.View>
+
+            <Animated.View style={[styles.Button, styles.border, threeAnimateStyles]}>
+                <Link href="/dispositivos" >
+                    <AntDesignIcons name="delete" size={30} color="#ffffff" /> 
+                    {/* <Feather name="plus" size={15} color="#ffffff" /> o outro tava com size 20 */}
                 </Link>
                 {/* poweroff para sair do email*/}
 
@@ -103,16 +124,19 @@ const IconeLink = () => {
     );
 
     function handlePress() {
-        if (isOpened.current) {
+        if (isOpened.current) { //fechar
 
-            transYsegund.value = withTiming(0, { duration: DURATION, easing: Easing.bezier(0.36, 0, 0.66, 0.56) });
+            transYthree.value = withTiming(0, { duration: DURATION, easing: Easing.bezier(0.36, 0, 0.66, 0.56) });
+            transYsegund.value = withDelay(DURATION / 3, withTiming(10, { duration: DURATION, easing: Easing.bezier(0.36, 0, 0.66, 0.56) }));
             transYCamera.value = withDelay(DURATION / 1.5, withTiming(10, { duration: DURATION, easing: Easing.bezier(0.36, 0, 0.66, 0.56) }));
+
             opacity.value = withTiming(1, { duration: DURATION })
 
-        } else {
+        } else { //abrir
             const config: WithSpringConfig = { damping: 12 } // serve para a parada ao abrir, tipo um pong que o objeto da
             transYCamera.value = withSpring(TRANSLATE_Y, config);
-            transYsegund.value = withDelay(DURATION / 2, withSpring(TRANSLATE_Y, config));
+            transYsegund.value = withDelay(DURATION / 3.5, withSpring(TRANSLATE_Y, config));
+            transYthree.value = withDelay(DURATION / 2, withSpring(TRANSLATE_Y, config)); //mudar
 
             opacity.value = withTiming(0, { duration: DURATION })
 
@@ -142,15 +166,7 @@ const styles = StyleSheet.create({
         
     },
 
-    cameraButton: {
-        width: 50,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',
-        zIndex: 1,
-    },
-    segundButton: {
+    Button: {
         width: 50,
         height: 50,
         justifyContent: 'center',

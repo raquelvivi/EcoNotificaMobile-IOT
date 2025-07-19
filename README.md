@@ -4,7 +4,7 @@ fora de back e front digite: "npm start"
 
 iniciar apenas back: "npm run dev"
 
-iniciar apenas o front: "npm run web"
+iniciar apenas o front: "npx expo start"
 
 OBS: se quiser iniciar apenas um, entre na pasta devida
 
