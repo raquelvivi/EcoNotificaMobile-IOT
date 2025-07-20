@@ -1,13 +1,38 @@
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+import { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import axios from 'axios';
+
+interface Lixeira {
+  nome: string;
+  serial: string;
+  situacao: 'Cheia' | 'Parcial' | 'Vazia';
+  conectado: boolean;
+  porcentagem: number;
+}
 
 export default function Dispositivos() {
-  const dispositivos = [
-    { nome: 'exemplo de lixera 1', conectado: false },
-    { nome: "exemplo de lixera 2", conectado: true },
-    { nome: 'exemplo de lixera 3', conectado: false },
-    { nome: 'exemplo de lixera 4', conectado: true },
-  ];
+  const [lixeiras, setLixeiras] = useState<Lixeira[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const buscarLixeiras = async () => {
+      try {
+        const response = await axios.get('http://192.168.1.20:8080/api/lixeiras');
+        console.log('📦 Dados recebidos do backend:', response.data);
+        setLixeiras(response.data);
+      } catch (err) {
+        console.error('Erro ao buscar lixeiras:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    buscarLixeiras();
+    const interval = setInterval(buscarLixeiras, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <LinearGradient colors={['#FFFFFF', '#80BC82']} style={styles.body}>
@@ -19,16 +44,39 @@ export default function Dispositivos() {
       <View style={styles.container}>
         <Text style={styles.title}>Dispositivos Conectados</Text>
 
-        <ScrollView contentContainerStyle={styles.listContainer}>
-          {dispositivos.map((item, index) => (
-            <View key={index} style={styles.item}>
-              <Text style={styles.deviceName}>{item.nome}</Text>
-              <Text style={[styles.status, item.conectado ? styles.connected : styles.notConnected]}>
-                {item.conectado ? 'Conectado' : 'Não conectado'}
-              </Text>
-            </View>
-          ))}
-        </ScrollView>
+        {loading ? (
+          <ActivityIndicator size="large" color="#207a3c" />
+        ) : (
+          <ScrollView contentContainerStyle={styles.listContainer}>
+            {lixeiras.map((item, index) => (
+              <View key={index} style={styles.item}>
+                <Text style={styles.deviceName}>{item.nome}</Text>
+
+                {item.conectado ? (
+                  <>
+                    <Text
+                      style={[
+                        styles.status,
+                        item.situacao === 'Cheia'
+                          ? styles.cheia
+                          : item.situacao === 'Parcial'
+                          ? styles.parcial
+                          : styles.vazia,
+                      ]}
+                    >
+                      {`Conectado - ${item.situacao}`}
+                    </Text>
+                    <Text style={styles.percent}>{`Nível: ${item.porcentagem}%`}</Text>
+                  </>
+                ) : (
+                  <Text style={[styles.status, styles.notConnected]}>
+                    Não conectado
+                  </Text>
+                )}
+              </View>
+            ))}
+          </ScrollView>
+        )}
       </View>
 
       <Image
@@ -84,17 +132,29 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   status: {
-    fontSize: 15                          ,
+    fontSize: 15,
     marginTop: 4,
-  },
-  connected: {
-    color: '#207a3c',
-    fontWeight: 'bold',
-    fontStyle: 'italic'
   },
   notConnected: {
     color: '#7a7a7a',
     fontStyle: 'italic',
+  },
+  cheia: {
+    color: 'red',
+    fontWeight: 'bold',
+  },
+  parcial: {
+    color: 'orange',
+    fontWeight: 'bold',
+  },
+  vazia: {
+    color: 'green',
+    fontWeight: 'bold',
+  },
+  percent: {
+    fontSize: 14,
+    marginTop: 2,
+    color: '#444',
   },
   recicleIcon: {
     width: 28,
