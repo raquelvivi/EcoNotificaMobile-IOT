@@ -1,23 +1,29 @@
 {
   "expo": {
-    "name": "Front",
+    "name": "ECONOTIFICA",
     "slug": "Front",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/images/icone_reciclagem.png",
-    "scheme": "front",
+    "scheme": "econotifica",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
     "android": {
+     "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icone_reciclagem.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.welsonrodrigues.Front"
+      "package": "com.welsonrodrigues.Front",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAUrEgz8wpM2yqYgKpPeDbxQTCOD184mTU"
+        }
+      }
     },
     "web": {
       "bundler": "metro",

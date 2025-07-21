@@ -8,32 +8,84 @@ export default function NovaSenha() {
   const [email, setEmail] = useState('');
   const [novaSenha, setNovaSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTrocarSenha = async () => {
-    if (novaSenha !== confirmarSenha) {
-      Alert.alert("Erro", "As senhas não coincidem!");
+    // Validações básicas
+    if (!email) {
+      Alert.alert("Erro", "Por favor, insira seu email cadastrado");
       return;
     }
 
+    if (novaSenha.length < 6) {
+      Alert.alert("Erro", "A senha deve ter no mínimo 6 caracteres");
+      return;
+    }
+
+    if (novaSenha !== confirmarSenha) {
+      Alert.alert("Erro", "As senhas não coincidem");
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
-      const response = await fetch('https://econotifica-api.onrender.com/api/user/senha', {
+      // 1. Verifica se o email existe
+      const checkResponse = await fetch('https://econotifica-api.onrender.com/api/user/check-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const checkData = await checkResponse.json();
+
+      if (!checkResponse.ok) {
+        throw new Error(checkData.message || "Email não encontrado");
+      }
+
+      // 2. Atualiza a senha
+      const updateResponse = await fetch('https://econotifica-api.onrender.com/api/user/senha', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, novaSenha }),
+        body: JSON.stringify({ 
+          email,
+          novaSenha 
+        }),
       });
 
-      if (!response.ok) {
-        Alert.alert("Erro", "Não foi possível trocar a senha.");
-        return;
+      const updateData = await updateResponse.json();
+
+      if (!updateResponse.ok) {
+        throw new Error(updateData.message || "Erro ao atualizar senha");
       }
 
-      Alert.alert("Sucesso", "Senha atualizada com sucesso!");
-      router.push('/senha_email'); // redirecionar pro login
+      // 3. Verificação extra - tenta fazer login com a nova senha
+      const loginResponse = await fetch('https://econotifica-api.onrender.com/api/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          email,
+          senha: novaSenha 
+        }),
+      });
+
+      if (!loginResponse.ok) {
+        throw new Error("Senha atualizada, mas falha ao verificar login. Tente fazer login manualmente.");
+      }
+
+      Alert.alert("Sucesso", "Senha atualizada com sucesso! Você já pode fazer login com a nova senha.");
+      router.push('/senha_email');
     } catch (error) {
-      console.error(error);
-      Alert.alert("Erro", "Problema ao conectar com o servidor.");
+      console.error("Erro completo:", error);
+      Alert.alert("Erro", error.message || "Ocorreu um erro ao atualizar a senha");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -46,22 +98,47 @@ export default function NovaSenha() {
 
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Email:</Text>
-          <TextInput style={styles.input} value={email} onChangeText={setEmail} />
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            editable={!isLoading}
+          />
         </View>
 
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Nova senha:</Text>
-          <TextInput style={styles.input} secureTextEntry value={novaSenha} onChangeText={setNovaSenha} />
+          <Text style={styles.label}>Nova senha (mín. 6 caracteres):</Text>
+          <TextInput
+            style={styles.input}
+            secureTextEntry
+            value={novaSenha}
+            onChangeText={setNovaSenha}
+            editable={!isLoading}
+          />
         </View>
 
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Reescreva:</Text>
-          <TextInput style={styles.input} secureTextEntry value={confirmarSenha} onChangeText={setConfirmarSenha} />
+          <Text style={styles.label}>Confirme a senha:</Text>
+          <TextInput
+            style={styles.input}
+            secureTextEntry
+            value={confirmarSenha}
+            onChangeText={setConfirmarSenha}
+            editable={!isLoading}
+          />
         </View>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleTrocarSenha}>
-        <Text style={styles.buttonText}>Pronto</Text>
+      <TouchableOpacity
+        style={[styles.button, isLoading && styles.disabledButton]}
+        onPress={handleTrocarSenha}
+        disabled={isLoading}
+      >
+        <Text style={styles.buttonText}>
+          {isLoading ? "Atualizando..." : "Atualizar Senha"}
+        </Text>
       </TouchableOpacity>
 
       <Image source={require('../assets/images/icone_reciclagem.png')} style={styles.recicleIcon} />
