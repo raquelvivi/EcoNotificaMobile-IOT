@@ -24,6 +24,7 @@ export default function RootLayout() {
       <Stack.Screen name="nova_senha" />
       <Stack.Screen name="senha_email" />
       <Stack.Screen name="dispositivos" />
+      <Stack.Screen name="teste" />
     </Stack>
   );
 }
