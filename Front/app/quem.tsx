@@ -15,11 +15,7 @@ export default function SelecionarPerfil() {
       <View style={styles.grid}>
         <View style={styles.row}>
           <Card title="Prefeitura" img={require('../assets/images/prefeito.png')} onPress={() => router.push('/login?tipo=prefeitura')} />
-          <Card title="Reciclador" img={require('../assets/images/lixeira-de-reciclagem.png')} onPress={() => router.push('/login?tipo=reciclador')} />
-        </View>
-        <View style={styles.row}>
           <Card title="Empresa" img={require('../assets/images/fabrica.png')} onPress={() => router.push('/login?tipo=empresa')} />
-          <Card title="Comunidade" img={require('../assets/images/comunidade.png')} onPress={() => router.push('/login?tipo=comunidade')} />
         </View>
       </View>
       <Image source={require('../assets/images/icone_reciclagem.png')} style={styles.recicleIcon} />

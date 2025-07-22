@@ -57,7 +57,6 @@ export default function Index() {
               <View style={[styles.main]}>
                 <Image source={require('../assets/images/reciclando.png')} style={[styles.img]} />
 
-                <Text style={[styles.texto]}>Você Ainda Não Começou a Reciclar</Text>
 
                 <Text style={[styles.botao]}>Vamos Reciclar?</Text>
               </View>
@@ -73,37 +72,6 @@ export default function Index() {
           <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
 
         </View >
-
-
-
-
-
-        <View style={[styles.main]}>
-
-          <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
-
-          <View style={[styles.conteine, styles.lista]}>
-
-            <Grupo Nome="area 1" />
-            <Grupo Nome="area 2" />
-            <Grupo Nome="area 3" />
-            <Grupo Nome="area 4" />
-            <Grupo Nome="area 5" />
-
-
-
-          </View>
-
-          <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
-
-        </View >
-
-
-
-
-
-
-
 
         <View style={[styles.main]}>
 

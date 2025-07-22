@@ -65,8 +65,13 @@ export default function SenhaEmail() {
         </View>
       </View>
 
+
       <TouchableOpacity style={styles.linkBox} onPress={() => router.push('/nova_senha')}>
         <Text style={styles.link}>Esqueceu sua senha?</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.linkBox} onPress={() => router.push('/login')}>
+          <Text style={styles.link}>Criar conta</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.linkBox} onPress={handleLogin}>
