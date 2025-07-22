@@ -128,7 +128,7 @@ export default function Index() {
                   description={`ID: ${item.id}`}
                 >
                   <View style={styles.markerCustom}>
-                    <Text style={{ fontSize: 24 }}>🔥</Text>
+                    <Text style={{ fontSize: 24 }}>♻️</Text>
                   </View>
                 </Marker>
               ))}
@@ -227,14 +227,14 @@ const styles = StyleSheet.create({
 
   map: {
     width: 300,
-    height: 300,
+    height: 500,
     zIndex: 2,
     position: "absolute",
 
   },
   quadrado: {
     width: 300,
-    height: 300,
+    height: 500,
     borderRadius: 20,
     borderWidth: 2,
     borderColor: '#000',
