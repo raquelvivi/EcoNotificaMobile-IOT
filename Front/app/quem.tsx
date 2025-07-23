@@ -5,17 +5,30 @@ import { useRouter } from 'expo-router';
 export default function SelecionarPerfil() {
   const router = useRouter();
 
+  const handleSelect = (tipo) => {
+    router.push({
+      pathname: '/login',
+      params: { tipoUsuario: tipo }
+    });
+  };
+
   return (
     <LinearGradient colors={['#ffffff', '#7BBF8C']} style={styles.body}>
-
       <Image source={require('../assets/images/logo_login.png')} style={styles.logo} />
-
       <Text style={styles.subtitulo}>Quem é você?</Text>
 
       <View style={styles.grid}>
         <View style={styles.row}>
-          <Card title="Empresa ou Prefeitura" img={require('../assets/images/fabrica.png')} onPress={() => router.push('/login?tipo=prefeitura')} />
-          <Card title="Pessoa" img={require('../assets/images/comunidade.png')} onPress={() => router.push('/login?tipo=empresa')} />
+          <Card 
+            title="Empresa/Prefeitura" 
+            img={require('../assets/images/fabrica.png')} 
+            onPress={() => handleSelect('organizacao')} 
+          />
+          <Card 
+            title="Pessoa" 
+            img={require('../assets/images/comunidade.png')} 
+            onPress={() => handleSelect('pessoa')} 
+          />
         </View>
       </View>
       <Image source={require('../assets/images/icone_reciclagem.png')} style={styles.recicleIcon} />
