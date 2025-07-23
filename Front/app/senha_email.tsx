@@ -25,7 +25,7 @@ export default function SenhaEmail() {
   
       const data = await response.json();
       console.log('Usuário logado:', data);
-      router.push('/quem'); // redirecionar após login bem-sucedido
+      router.push('/principal'); // redirecionar após login bem-sucedido
     } catch (error) {
       console.error('Erro no login:', error);
       Alert.alert('Erro', 'Não foi possível conectar ao servidor');
@@ -70,7 +70,7 @@ export default function SenhaEmail() {
         <Text style={styles.link}>Esqueceu sua senha?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.linkBox} onPress={() => router.push('/login')}>
+      <TouchableOpacity style={styles.linkBox} onPress={() => router.push('/quem')}>
           <Text style={styles.link}>Criar conta</Text>
       </TouchableOpacity>
 
