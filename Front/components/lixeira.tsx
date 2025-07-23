@@ -2,26 +2,53 @@
 import { View, StyleSheet, Text } from 'react-native';
 
 import { Lixeira } from '../type'
+import { Link } from 'expo-router';
 
 export default function Lixeiras({ dado }: { dado: Lixeira | null }) {
 
+    const getCorSituacao = (situacao = '') => {
+        switch (situacao?.toLowerCase()) {
+            case 'parcial':
+                return '#FF8914'; // laranja
+            case 'cheia':
+                return '#EE0000'; // vermelho
+            case 'vazia':
+                return '#00A105'; // verde
+            default:
+                return '#8A2BE2'; // violeta (para outros casos)
+        }
+    };
+      
     if (dado) {
+        
         return (
-
-            <View style={[styles.lixeira]}>
+            <Link href="/dadosLixeira" style={[styles.lixeira]}>
+            <View >
+                
                 <Text style={[styles.lixTitulo]}>{dado.nome}</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={[styles.lixTitulo]}>Nivel: </Text>
-                    <Text style={[styles.lixTitulo, { color: "#FF8914" }]}> {dado.situacao} </Text>
+                    <Text
+                        style={[
+                            styles.lixTitulo,
+                            { color: getCorSituacao(dado.situacao) }
+                        ]}
+                    >
+                        {dado.situacao}
+                    </Text>
+
                 </View>
+                
             </View>
+            
+            </Link>
         );
     }
 
-    //Parcial = #FF8914
-    //Cheia = #EE0000
-    //Vazia = #00A105
+    
 }
+
+
 
 const styles = StyleSheet.create({
 

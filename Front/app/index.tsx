@@ -1,40 +1,153 @@
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, Button, ScrollView, Dimensions } from "react-native";
 import React, { useState, useEffect } from 'react';
-import { useFonts } from 'expo-font';
 import { Link } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
+import MapView, { Marker } from 'react-native-maps';
 
+
+import Lixeiras from '../components/lixeira';
+import Grupo from '../components/grupos';
+import IconeLink from '../components/iconeLink';
+
+import AnimatedLoader from 'react-native-animated-loader';
+
+import { Lixeira } from '../type'
+
+import { API_BASE_URL } from '../conf/api'
+
+const deviceWidth = Dimensions.get('window').width;
 
 
 export default function Index() {
+  const router = useRouter();
 
-  const [fontsLoaded] = useFonts({
-    Inder: require('../assets/fonts/Inder-Regular.ttf'), // Caminho da fonte
-  });
+  const [dados, setDados] = useState<Lixeira[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [timer, setTimer] = useState(true);
 
-  if (!fontsLoaded) {
-    return null; // ou uma tela de loading
+  useEffect(() => {
+    const fetchDados = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/lixeira`);
+        const data: Lixeira[] = await res.json();
+        setDados(data);
+
+        // Espera 3 segundos DEPOIS que os dados chegaram
+        setTimeout(() => {
+          setLoading(false);
+        }, 25000); // 25000
+
+      } catch (err) {
+        console.error("Erro ao carregar dados:", err);
+      }
+    };
+
+    fetchDados();
+  }, []);
+
+
+  if (loading) {
+    return (
+      <View style={styles.overlay}>
+        <AnimatedLoader
+          visible={true}
+          overlayColor="rgb(255, 255, 255)"
+          source={require('../assets/images/Loading animation for Client book.json')}
+          animationStyle={{ width: 300, height: 300 }}
+          speed={0.2}
+          loop={false}
+        />
+      </View>
+    );
   }
+
+
+
   return (
 
 
 
-    <View style={[styles.main]}>
+    //dando cor de fundo
+    <LinearGradient
+      colors={['#FFFFFF', '#80BC82']} // branco para verde 
+      style={styles.body}
+    >
+      <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
 
 
-      <Image source={require('../assets/images/ecologia.png')} style={[styles.img]} />
-      <Text style={[styles.texto]} >BEM VINDO</Text>
+        <View style={[styles.main]}>
 
-    {/* se a pessoa ja tiver feito login vai para as lixeiras (principal) se não vai cadastrar */}
-    
-      <Link href="/principal" style={{marginTop: 30, padding: 10, backgroundColor: "#ffffff", borderRadius: 5}}>  
-        <Text style={[styles.botao]} >ENTRAR</Text>
-      </Link>
+          <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
 
+          <View style={[styles.lista]}>
 
-
-    </View>
+            <ScrollView style={[styles.lista2]}>
+              {dados.length == 0 ? (
+                <View style={[styles.main]}>
+                  <Image source={require('../assets/images/reciclando.png')} style={[styles.img]} />
 
 
+                  <Text style={[styles.botao]}>Vamos Reciclar?</Text>
+                </View>
+              ) : (dados.map((item: Lixeira, index) => ( //.slice(15, 20)
+
+                <View key={index}>
+                  <Lixeiras dado={item} />
+                </View>
+              ))
+              )}
+            </ScrollView>
+          </View>
+
+          <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
+
+        </View >
+
+        <View style={[styles.main]}>
+
+          <Image source={require('../assets/images/logo_login.png')} style={[styles.img2]} />
+
+
+          <View style={styles.quadrado}>
+            {<MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: -22.9528074,
+                longitude: -43.214294,
+                latitudeDelta: 0.01, // quanto menor, mais zoom
+                longitudeDelta: 0.01,
+              }}
+            >
+              {dados.map((item: Lixeira, index) => (
+                <Marker
+                  key={index}
+                  coordinate={{ latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude) }}
+                  title={`${item.nome}`}
+                  description={`ID: ${item.id}`}
+                >
+                  <View style={styles.markerCustom}>
+                    <Text style={{ fontSize: 24 }}>♻️</Text>
+                  </View>
+                </Marker>
+              ))}
+
+            </MapView>}
+          </View>
+
+          <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
+
+        </View >
+
+
+
+      </ScrollView>
+
+      <View>
+        <IconeLink />
+      </View>
+
+    </LinearGradient>
 
 
   );
@@ -46,44 +159,119 @@ const styles = StyleSheet.create({
 
   body: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
 
   },
   main: {
-    flex: 1,
+    width: deviceWidth,
+    justifyContent: "center",
     alignItems: "center",
     position: "relative",
-    backgroundColor: "#2E9031",
+    // flexDirection: 'row'
   },
   img: {
-    marginTop: 250,
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 250,
+
+  },
+  img2: {
+    position: "absolute",
+    top: 40,
+    padding: 10,
+    height: 65,
+    width: 240,
 
   },
   texto: {
-    marginTop: 20,
+    marginTop: 50,
     fontSize: 20,
-    color: "#ffffff",
-    fontFamily: "Inder"
+    marginLeft: 50,
+    marginRight: 50,
   },
   botao: {
-    
-    
-
-    fontSize: 15,
-
+    marginTop: 30,
+    borderRadius: 5,
+    backgroundColor: '#ffffff',
+    padding: 10,
+    fontSize: 15
 
   },
   icone: {
     position: "absolute",
     bottom: 0,
-    marginBottom: 30,
+    marginTop: 30,
+    marginBottom: 60,
     width: 40,
     height: 40,
   },
 
+
+
+
+
   lista: {
-    marginTop: 200,
+    marginTop: 0,
+    maxHeight: 550,
+  },
+  
+
+  conteine: {
+    backgroundColor: "#ffffff",
+    padding: 20,
+    borderRadius: 20,
+    minHeight: 200,
+    maxHeight: 500,
+
+
+  },
+
+  map: {
+    width: 300,
+    height: 500,
+    zIndex: 2,
+    position: "absolute",
+
+  },
+  quadrado: {
+    width: 300,
+    height: 500,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#000',
+    overflow: 'hidden',
+    alignSelf: 'center',
+  },
+  markerCustom: {
+    padding: 5,
+
+  },
+
+  overlay: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    marginTop: -100,
+    fontSize: 30,
+    color: '#000000',
+  },
+  text2: {
+    marginTop: 50,
+    fontSize: 18,
+    color: 'rgb(100, 175, 96)',
+    textAlign: 'center',
+    fontWeight: '500',
+    maxWidth: 350,
+  },
+
+  ico: {
+
+    position: 'absolute',
+    bottom: 100,
+
   },
 
 

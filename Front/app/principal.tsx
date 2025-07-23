@@ -10,6 +10,7 @@ import Lixeiras from '../components/lixeira';
 import Grupo from '../components/grupos';
 import IconeLink from '../components/iconeLink';
 
+import AnimatedLoader from 'react-native-animated-loader';
 
 import { Lixeira } from '../type'
 
@@ -22,16 +23,44 @@ export default function Index() {
   const router = useRouter();
 
   const [dados, setDados] = useState<Lixeira[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [timer, setTimer] = useState(true);
 
-  useEffect(() => { //pesquisa para colocar lixeiras
-    fetch(`${API_BASE_URL}/api/lixeira`)
-      .then((res) => res.json())
-      .then((data: Lixeira[]) => setDados(data))
-      .catch((err) => console.log(err));
-    console.log(dados)
+  useEffect(() => {
+    const fetchDados = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/lixeira`);
+        const data: Lixeira[] = await res.json();
+        setDados(data);
+
+        // Espera 3 segundos DEPOIS que os dados chegaram
+        setTimeout(() => {
+          setLoading(false);
+        }, 25000);
+
+      } catch (err) {
+        console.error("Erro ao carregar dados:", err);
+      }
+    };
+
+    fetchDados();
   }, []);
 
 
+  if (loading) {
+    return (
+      <View style={styles.overlay}>
+        <AnimatedLoader
+          visible={true}
+          overlayColor="rgb(255, 255, 255)"
+          source={require('../assets/images/Loading animation for Client book.json')}
+          animationStyle={{ width: 300, height: 300 }}
+          speed={0.2}
+          loop={false}
+        />
+      </View>
+    );
+  }
 
 
 
@@ -79,7 +108,7 @@ export default function Index() {
 
 
           <View style={styles.quadrado}>
-            { <MapView
+            {<MapView
               style={styles.map}
               initialRegion={{
                 latitude: -22.9528074,
@@ -210,9 +239,36 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   markerCustom: {
-  padding: 5,
+    padding: 5,
 
-}
+  },
+
+  overlay: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    marginTop: -100,
+    fontSize: 30,
+    color: '#000000',
+  },
+  text2: {
+    marginTop: 50,
+    fontSize: 18,
+    color: 'rgb(100, 175, 96)',
+    textAlign: 'center',
+    fontWeight: '500',
+    maxWidth: 350,
+  },
+
+  ico: {
+
+    position: 'absolute',
+    bottom: 100,
+
+  },
 
 
 });
