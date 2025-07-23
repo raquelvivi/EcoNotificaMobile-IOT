@@ -97,7 +97,7 @@ const IconeLink = () => {
 
 
             <Animated.View style={[styles.Button, styles.border, cameraAnimateStyles]}>
-                <Link href="/senha_email" >
+                <Link href="/identificacao" >
                     <Feather name="user-plus" size={30} color="#ffffff" />
                 </Link>
                 {/* user-plus do fateer para entrar e user , log-in*/}

@@ -1,4 +1,8 @@
 :root{
-    --colorFundo: '#80BC82',
+    --colorFundo: '#ffffff',
 
+}
+
+.abd{
+    background-color: rgba(87, 193, 81, 0.601);
 }
