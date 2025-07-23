@@ -7,15 +7,24 @@ export default function Identificacao() {
     <LinearGradient colors={['#ffffff', '#80BC82']} style={styles.container}>
       <Image source={require('../assets/images/logo_login.png')} style={styles.logo} />
 
-      <TouchableOpacity style={styles.card} onPress={() => router.push("/quem")}>
-        <Image source={require('../assets/images/criar.png')} style={styles.icone} />
-        <Text style={styles.texto}>Criar Conta</Text>
-      </TouchableOpacity>
+      <Text style={styles.subtitulo}>Bem-vindo ao EcoNotifica</Text>
 
-      <TouchableOpacity style={styles.card} onPress={() => router.push("/senha_email")}>
-        <Image source={require('../assets/images/login.png')} style={styles.icone} />
-        <Text style={styles.texto}>Fazer Login</Text>
-      </TouchableOpacity>
+      <View style={styles.cardContainer}>
+        <TouchableOpacity style={styles.card} onPress={() => router.push("/quem")}>
+          <Image source={require('../assets/images/criar.png')} style={styles.icone} />
+          <Text style={styles.texto}>Criar Conta</Text>
+        </TouchableOpacity>
+
+        {/* Linha divisória */}
+        <View style={styles.divisor}></View>
+
+        <TouchableOpacity style={styles.card} onPress={() => router.push("/senha_email")}>
+          <Image source={require('../assets/images/login.png')} style={styles.icone} />
+          <Text style={styles.texto}>Fazer Login</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Ícone de reciclagem no rodapé */}
       <Image source={require('../assets/images/icone_reciclagem.png')} style={styles.reciclagem} />
     </LinearGradient>
   );
@@ -25,33 +34,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 50,
   },
   logo: {
-    width: 200,
-    height: 60,
+    width: 220,
+    height: 70,
     resizeMode: 'contain',
-    marginBottom: 10,
   },
-  titulo: {
-    fontSize: 28,
-    fontWeight: 'bold',
+  subtitulo: {
+    fontSize: 20,
     color: '#2D6B3A',
-    marginBottom: 30,
-    textShadowColor: '#A0C3A8',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
+    fontWeight: '600',
+    marginTop: 20,
+  },
+  cardContainer: {
+    alignItems: 'center',
+    gap: 20,
   },
   card: {
-    width: 300,
+    width: 240,
     height: 120,
-    backgroundColor: "#E6F3E8",
-    borderRadius: 20,
+    backgroundColor: "#EAF8EC",
+    borderRadius: 30,
     paddingVertical: 20,
     justifyContent: "center",
     alignItems: "center",
-    elevation: 5,
-    marginVertical: 10,
+    shadowColor: "#3b6d42",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 6,
+  },
+  divisor: {
+    width: 180,
+    height: 1,
+    backgroundColor: "#ffffff",
+
   },
   icone: {
     width: 50,
@@ -60,10 +80,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   reciclagem: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     resizeMode: 'contain',
-    marginVertical: 10,
+    opacity: 0.7,
   },
   texto: {
     fontSize: 18,
