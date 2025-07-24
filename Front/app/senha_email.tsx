@@ -65,17 +65,18 @@ export default function SenhaEmail() {
         </View>
       </View>
 
+      <View style={styles.pronto_cadastro}>
+        <TouchableOpacity style={styles.linkBox} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Pronto</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.linkBox} onPress={() => router.push('/quem')}>
+          <Text style={styles.link}>Criar conta</Text>
+        </TouchableOpacity>
+      </View>
 
       <TouchableOpacity style={styles.linkBox} onPress={() => router.push('/nova_senha')}>
         <Text style={styles.link}>Esqueceu sua senha?</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.linkBox} onPress={() => router.push('/quem')}>
-          <Text style={styles.link}>Criar conta</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.linkBox} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Pronto</Text>
       </TouchableOpacity>
 
       <Image source={require('../assets/images/icone_reciclagem.png')} style={styles.recicleIcon} />
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
   link: {
     color: '#1C4E2A',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 16,
     textAlign: 'center',
   },
   button: {
@@ -171,4 +172,13 @@ const styles = StyleSheet.create({
     tintColor: '#ffffff',
     marginBottom: 5,
   },
+
+  pronto_cadastro: {
+  flexDirection: 'row',
+  gap: 10, 
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: 10,
+},
+
 });
