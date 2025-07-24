@@ -99,10 +99,7 @@ export default function Dispositivos() {
         )}
       </View>
 
-      <Image
-        source={require('../assets/images/icone_reciclagem.png')}
-        style={styles.recicleIcon}
-      />
+      <Image source={require('../assets/images/icone_reciclagem.png')} style={styles.reciclagem} />
     </LinearGradient>
   );
 }
@@ -189,10 +186,10 @@ const styles = StyleSheet.create({
     marginTop: 2,
     color: '#444',
   },
-  recicleIcon: {
-    width: 28,
-    height: 28,
-    marginTop: 20,
-    tintColor: '#ffffff',
+  reciclagem: {
+    width: 50,
+    height: 50,
+    resizeMode: 'contain',
+    opacity: 0.7,
   },
 });
