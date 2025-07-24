@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Button, Platform } from "react-native";
+import { Text, StyleSheet, Button, Platform, View, Modal, TouchableOpacity } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 import * as IntentLauncher from "expo-intent-launcher";
 import * as Linking from "expo-linking";
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function ConnectionWrapper({ children }: { children: React.ReactNode }) {
   const [isConnected, setIsConnected] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
       setIsConnected(state.isConnected ?? false);
+      if (!(state.isConnected ?? false)) {
+        setModalVisible(true);
+      } else {
+        setModalVisible(false);
+      }
     });
     return () => unsubscribe();
   }, []);
@@ -24,32 +31,61 @@ export default function ConnectionWrapper({ children }: { children: React.ReactN
     }
   };
 
-  if (!isConnected) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.text}>
-          Sem conexão com a internet. Ative o Wi-Fi ou os dados móveis.
-        </Text>
-        <Button title="Abrir configurações de Wi-Fi" onPress={openWifiSettings} />
-      </View>
-    );
-  }
-
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <Modal
+        visible={modalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <LinearGradient
+          colors={['#ffffff', '#80BC82']}
+          style={styles.modalBackground}
+        >
+          <View style={styles.modalContainer}>
+            <Text style={styles.text}>
+              Sem conexão com a internet. Ative o Wi-Fi ou os dados móveis.
+            </Text>
+            <TouchableOpacity style={styles.button} onPress={openWifiSettings}>
+              <Text style={styles.buttonText}>Abrir configurações de Wi-Fi</Text>
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
+      </Modal>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  modalBackground: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  modalContainer: {
+    backgroundColor: "rgba(0,0,0,0.6)",
     padding: 24,
-    backgroundColor: "#fff",
+    borderRadius: 10,
+    alignItems: "center",
+    marginHorizontal: 30,
   },
   text: {
     fontSize: 18,
-    color: "red",
+    color: "#ffffff",
     textAlign: "center",
-    marginBottom: 12,
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: "#80BC82",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
