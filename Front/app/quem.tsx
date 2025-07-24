@@ -106,8 +106,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   recicleIcon: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     tintColor: '#ffffff',
     marginBottom: 10,
   },

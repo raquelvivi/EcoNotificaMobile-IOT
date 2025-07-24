@@ -167,8 +167,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   recicleIcon: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     tintColor: '#ffffff',
     marginBottom: 5,
   },
