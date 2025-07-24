@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   reciclagem: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     resizeMode: 'contain',
     opacity: 0.7,
   },
