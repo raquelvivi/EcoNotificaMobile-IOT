@@ -14,7 +14,7 @@ import Animated, {
 import { Link } from 'expo-router';
 
 import Feather from 'react-native-vector-icons/Feather';
-import { opacity } from 'react-native-reanimated/lib/typescript/Colors';
+
 
 
 
@@ -105,7 +105,7 @@ const IconeLink = () => {
             </Animated.View>
 
             <Animated.View style={[styles.Button, styles.border, segundAnimateStyles]}>
-                <Link href="/quem" >
+                <Link href="/teste" >
                     <AntDesignIcons name="user" size={30} color="#ffffff" />
                 </Link>
                 {/* poweroff para sair do email*/}

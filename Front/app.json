@@ -8,22 +8,27 @@
     "scheme": "econotifica",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "platforms": ["ios", "android"], 
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Este app precisa acessar sua localização."
+      }
     },
     "android": {
-     "versionCode": 3,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icone_reciclagem.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.welsonrodrigues.Front",
+      "package": "com.welsonrodrigues.Front", 
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyAUrEgz8wpM2yqYgKpPeDbxQTCOD184mTU"
         }
-      }
+      },
+      "permissions": ["ACCESS_FINE_LOCATION"]
     },
     "web": {
       "bundler": "metro",
@@ -41,6 +46,7 @@
           "backgroundColor": "#ffffff"
         }
       ]
+      
     ],
     "experiments": {
       "typedRoutes": true
@@ -53,4 +59,3 @@
     }
   }
 }
-

@@ -1,19 +1,17 @@
 import { Text, View, Image, StyleSheet, Button, ScrollView, Dimensions } from "react-native";
 import React, { useState, useEffect } from 'react';
-import { Link } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import MapView, { Marker } from 'react-native-maps';
-
+import AnimatedLoader from 'react-native-animated-loader';
+import * as Location from 'expo-location';
 
 import Lixeiras from '../components/lixeira';
 import Grupo from '../components/grupos';
 import IconeLink from '../components/iconeLink';
 
-import AnimatedLoader from 'react-native-animated-loader';
-
+import frasesReciclagem from '../data/frasesReciclagem'; 
 import { Lixeira } from '../type'
-
 import { API_BASE_URL } from '../conf/api'
 
 const deviceWidth = Dimensions.get('window').width;
@@ -24,7 +22,9 @@ export default function Index() {
 
   const [dados, setDados] = useState<Lixeira[]>([]);
   const [loading, setLoading] = useState(true);
-  const [timer, setTimer] = useState(true);
+  const [frase, setFrase] = useState(''); 
+  const [localizacao, setLocalizacao] = useState(null);
+  const [erro, setErro] = useState(null);
 
   useEffect(() => {
     const fetchDados = async () => {
@@ -33,31 +33,52 @@ export default function Index() {
         const data: Lixeira[] = await res.json();
         setDados(data);
 
-        // Espera 3 segundos DEPOIS que os dados chegaram
         setTimeout(() => {
           setLoading(false);
-        }, 25000); // 25000
+        }, 23000); // 25000
+        
 
       } catch (err) {
         console.error("Erro ao carregar dados:", err);
       }
     };
 
+    const indexAleatorio = Math.floor(Math.random() * frasesReciclagem.length); 
+    setFrase(frasesReciclagem[indexAleatorio]); 
     fetchDados();
+
+    const localiza = (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErro('Permissão de localização negada.');
+        return;
+      }
+
+      const local = await Location.getCurrentPositionAsync({});
+      setLocalizacao(local);
+    })
+
+    localiza()
+
   }, []);
 
 
   if (loading) {
     return (
-      <View style={styles.overlay}>
-        <AnimatedLoader
-          visible={true}
-          overlayColor="rgb(255, 255, 255)"
-          source={require('../assets/images/Loading animation for Client book.json')}
-          animationStyle={{ width: 300, height: 300 }}
-          speed={0.2}
-          loop={false}
-        />
+      <View style={styles.outro}>
+        <View style={styles.overlay}>
+          <AnimatedLoader
+            visible={true}
+            overlayColor="rgba(255, 255, 255, 0)"
+            source={require('../assets/images/Loading animation for Client book.json')}
+            animationStyle={{ width: 300, height: 300 }}
+            speed={0.2}
+            loop={false}
+          />
+          
+        </View>
+
+        <Text style={styles.text2}>{frase}</Text>
       </View>
     );
   }
@@ -82,7 +103,7 @@ export default function Index() {
 
           <View style={[styles.lista]}>
 
-            <ScrollView style={[styles.lista2]}>
+            <ScrollView>
               {dados.length == 0 ? (
                 <View style={[styles.main]}>
                   <Image source={require('../assets/images/reciclando.png')} style={[styles.img]} />
@@ -113,10 +134,10 @@ export default function Index() {
             {<MapView
               style={styles.map}
               initialRegion={{
-                latitude: -22.9528074,
-                longitude: -43.214294,
-                latitudeDelta: 0.01, // quanto menor, mais zoom
-                longitudeDelta: 0.01,
+                latitude: localizacao?.coords.latitude || -22.9528074,
+                longitude: localizacao?.coords.longitude || -43.214294,
+                latitudeDelta: 0.10, // quanto menor, mais zoom
+                longitudeDelta: 0.10,
               }}
             >
               {dados.map((item: Lixeira, index) => (
@@ -214,7 +235,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
     maxHeight: 550,
   },
-  
+
 
   conteine: {
     backgroundColor: "#ffffff",
@@ -249,7 +270,7 @@ const styles = StyleSheet.create({
 
   overlay: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    // backgroundColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -259,7 +280,9 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   text2: {
-    marginTop: 50,
+    marginTop: 600,
+    zIndex: 21,
+    position: "absolute",
     fontSize: 18,
     color: 'rgb(100, 175, 96)',
     textAlign: 'center',
@@ -273,6 +296,11 @@ const styles = StyleSheet.create({
     bottom: 100,
 
   },
+  outro:{
+    position: 'relative',
+
+    alignItems: 'center',
+  }
 
 
 });

@@ -8,6 +8,8 @@ export default function dadosLixeira({Nome = ''}) {
     return (
         <View style={[styles.conteine]}>
             <Text>BEM VINDO AOS DADOS DA LIXEIRA</Text>
+
+
         </View>
 
     );
@@ -20,7 +22,7 @@ const styles = StyleSheet.create({
 
 
     conteine: {
-        backgroundColor: "#D9D9D9",
+        backgroundColor: "#ffffff",
 
     },
 
