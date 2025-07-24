@@ -24,6 +24,8 @@ export default function RootLayout() {
       <Stack.Screen name="senha_email" />
       <Stack.Screen name="dispositivos" />
       <Stack.Screen name="identificacao" />
+      <Stack.Screen name="ConectarDispositivo" />
+
 
     </Stack>
   );

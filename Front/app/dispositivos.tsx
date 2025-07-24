@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator } from 'react-native';
+import {View,Text,StyleSheet,ScrollView,Image,ActivityIndicator,TouchableOpacity,} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 interface Lixeira {
   nome: string;
@@ -12,10 +13,10 @@ interface Lixeira {
 }
 
 export default function Dispositivos() {
+  const navigation = useNavigation();
   const [lixeiras, setLixeiras] = useState<Lixeira[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Função para determinar o status com base na porcentagem
   const getSituacao = (porcentagem: number): 'Cheia' | 'Parcial' | 'Vazia' => {
     if (porcentagem >= 80) return 'Cheia';
     else if (porcentagem >= 30) return 'Parcial';
@@ -41,6 +42,10 @@ export default function Dispositivos() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleAdicionarDispositivo = () => {
+    navigation.navigate('ConectarDispositivo' as never); // ajuste necessário para TypeScript
+  };
+
   return (
     <LinearGradient colors={['#FFFFFF', '#80BC82']} style={styles.body}>
       <Image
@@ -51,13 +56,17 @@ export default function Dispositivos() {
       <View style={styles.container}>
         <Text style={styles.title}>Dispositivos Conectados</Text>
 
+        <TouchableOpacity style={styles.button} onPress={handleAdicionarDispositivo}>
+          <Text style={styles.buttonText}>Adicionar dispositivo</Text>
+        </TouchableOpacity>
+
         {loading ? (
           <ActivityIndicator size="large" color="#207a3c" />
         ) : (
           <ScrollView contentContainerStyle={styles.listContainer}>
             {lixeiras.map((item, index) => {
               const situacao = getSituacao(item.porcentagem);
-              
+
               return (
                 <View key={index} style={styles.item}>
                   <Text style={styles.deviceName}>{item.nome}</Text>
@@ -128,6 +137,19 @@ const styles = StyleSheet.create({
     color: '#224d29',
     marginBottom: 15,
     textAlign: 'center',
+  },
+  button: {
+    backgroundColor: '#207a3c',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   listContainer: {
     paddingBottom: 20,
