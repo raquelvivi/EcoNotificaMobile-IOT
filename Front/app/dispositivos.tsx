@@ -15,6 +15,13 @@ export default function Dispositivos() {
   const [lixeiras, setLixeiras] = useState<Lixeira[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Função para determinar o status com base na porcentagem
+  const getSituacao = (porcentagem: number): 'Cheia' | 'Parcial' | 'Vazia' => {
+    if (porcentagem >= 80) return 'Cheia';
+    else if (porcentagem >= 30) return 'Parcial';
+    else return 'Vazia';
+  };
+
   useEffect(() => {
     const buscarLixeiras = async () => {
       try {
@@ -48,33 +55,37 @@ export default function Dispositivos() {
           <ActivityIndicator size="large" color="#207a3c" />
         ) : (
           <ScrollView contentContainerStyle={styles.listContainer}>
-            {lixeiras.map((item, index) => (
-              <View key={index} style={styles.item}>
-                <Text style={styles.deviceName}>{item.nome}</Text>
+            {lixeiras.map((item, index) => {
+              const situacao = getSituacao(item.porcentagem);
+              
+              return (
+                <View key={index} style={styles.item}>
+                  <Text style={styles.deviceName}>{item.nome}</Text>
 
-                {item.conectado ? (
-                  <>
-                    <Text
-                      style={[
-                        styles.status,
-                        item.situacao === 'Cheia'
-                          ? styles.cheia
-                          : item.situacao === 'Parcial'
-                          ? styles.parcial
-                          : styles.vazia,
-                      ]}
-                    >
-                      {`Conectado - ${item.situacao}`}
+                  {item.conectado ? (
+                    <>
+                      <Text
+                        style={[
+                          styles.status,
+                          situacao === 'Cheia'
+                            ? styles.cheia
+                            : situacao === 'Parcial'
+                            ? styles.parcial
+                            : styles.vazia,
+                        ]}
+                      >
+                        Conectado - {situacao === 'Cheia' ? 'Cheio' : situacao === 'Parcial' ? 'Parcial' : 'Vazio'}
+                      </Text>
+                      <Text style={styles.percent}>Nível: {item.porcentagem}%</Text>
+                    </>
+                  ) : (
+                    <Text style={[styles.status, styles.notConnected]}>
+                      Não conectado
                     </Text>
-                    <Text style={styles.percent}>{`Nível: ${item.porcentagem}%`}</Text>
-                  </>
-                ) : (
-                  <Text style={[styles.status, styles.notConnected]}>
-                    Não conectado
-                  </Text>
-                )}
-              </View>
-            ))}
+                  )}
+                </View>
+              );
+            })}
           </ScrollView>
         )}
       </View>
