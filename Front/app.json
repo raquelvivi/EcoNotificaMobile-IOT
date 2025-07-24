@@ -4,7 +4,7 @@
     "slug": "Front",
     "version": "1.0.3",
     "orientation": "portrait",
-    "icon": "./assets/images/icone_reciclagem.png",
+    "icon": "./assets/images/ecologia.png",
     "scheme": "econotifica",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -18,7 +18,7 @@
     "android": {
       "versionCode": 3,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icone_reciclagem.png",
+        "foregroundImage": "./assets/images/ecologia.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
@@ -33,14 +33,14 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/icone_reciclagem.png"
+      "favicon": "./assets/images/ecologia.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/icone_reciclagem.png",
+          "image": "./assets/images/ecologia.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
