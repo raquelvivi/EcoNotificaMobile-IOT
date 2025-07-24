@@ -1,4 +1,3 @@
-import { Float } from "react-native/Libraries/Types/CodegenTypes"
 
 export type Pessoa = {
     id: string,
@@ -17,4 +16,5 @@ export type Lixeira = {
     ip: string,
     latitude: string,
     longitude: string,
+    user_id: number,
 } 

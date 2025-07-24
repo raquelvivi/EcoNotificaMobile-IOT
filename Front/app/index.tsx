@@ -7,7 +7,7 @@ import AnimatedLoader from 'react-native-animated-loader';
 import * as Location from 'expo-location';
 
 import Lixeiras from '../components/lixeira';
-import Grupo from '../components/grupos';
+// import Grupo from '../components/grupos';
 import IconeLink from '../components/iconeLink';
 
 import frasesReciclagem from '../data/frasesReciclagem'; 
@@ -27,6 +27,7 @@ export default function Index() {
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
+
     const fetchDados = async () => {
       try {
         const res = await fetch(`${API_BASE_URL}/api/lixeira`);
@@ -35,7 +36,7 @@ export default function Index() {
 
         setTimeout(() => {
           setLoading(false);
-        }, 23000); // 25000
+        }, 10000); // 25000
         
 
       } catch (err) {
@@ -72,7 +73,7 @@ export default function Index() {
             overlayColor="rgba(255, 255, 255, 0)"
             source={require('../assets/images/Loading animation for Client book.json')}
             animationStyle={{ width: 300, height: 300 }}
-            speed={0.2}
+            speed={0.5}
             loop={false}
           />
           
@@ -131,6 +132,31 @@ export default function Index() {
 
 
           <View style={styles.quadrado}>
+            {/* {localizacao && (<MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: localizacao.coords.latitude || -22.9528074,
+                longitude: localizacao.coords.longitude || -43.214294,
+                latitudeDelta: 0.10, // quanto menor, mais zoom
+                longitudeDelta: 0.10,
+              }}
+            >
+              {dados.map((item: Lixeira, index) => (
+                <Marker
+                  key={index}
+                  coordinate={{ latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude) }}
+                  title={`${item.nome}`}
+                  description={`ID: ${item.id}`}
+                >
+                  <View style={styles.markerCustom}>
+                    <Text style={{ fontSize: 24 }}>♻️</Text>
+                  </View>
+                </Marker>
+              ))}
+
+            </MapView>)} */}
+
+
             {<MapView
               style={styles.map}
               initialRegion={{

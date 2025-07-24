@@ -10,17 +10,18 @@ export default function Identificacao() {
       <Text style={styles.subtitulo}>Bem-vindo ao EcoNotifica</Text>
 
       <View style={styles.cardContainer}>
-        <TouchableOpacity style={styles.card} onPress={() => router.push("/quem")}>
-          <Image source={require('../assets/images/criar.png')} style={styles.icone} />
-          <Text style={styles.texto}>Criar Conta</Text>
+        
+        <TouchableOpacity style={styles.card} onPress={() => router.push("/senha_email")}>
+          <Image source={require('../assets/images/login.png')} style={styles.icone} />
+          <Text style={styles.texto}>Fazer Login</Text>
         </TouchableOpacity>
 
         {/* Linha divisória */}
         <View style={styles.divisor}></View>
 
-        <TouchableOpacity style={styles.card} onPress={() => router.push("/senha_email")}>
-          <Image source={require('../assets/images/login.png')} style={styles.icone} />
-          <Text style={styles.texto}>Fazer Login</Text>
+        <TouchableOpacity style={styles.card} onPress={() => router.push("/quem")}>
+          <Image source={require('../assets/images/criar.png')} style={styles.icone} />
+          <Text style={styles.texto}>Criar Conta</Text>
         </TouchableOpacity>
       </View>
 
