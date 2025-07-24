@@ -26,42 +26,44 @@ export default function Index() {
   const [localizacao, setLocalizacao] = useState(null);
   const [erro, setErro] = useState(null);
 
-  useEffect(() => {
-
-    const fetchDados = async () => {
-      try {
-        const res = await fetch(`${API_BASE_URL}/api/lixeira`);
-        const data: Lixeira[] = await res.json();
-        setDados(data);
-
-        setTimeout(() => {
+  // Frase e dados
+useEffect(() => {
+  const fetchFraseEDados = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/lixeira`);
+      const data: Lixeira[] = await res.json();
+      setDados(data);
+    } catch (err) {
+      console.error("Erro ao carregar dados:", err);
+    } finally {
+       setTimeout(() => {
           setLoading(false);
-        }, 10000); // 25000
-        
+        }, 5500); // 25000
+    }
+  };
 
-      } catch (err) {
-        console.error("Erro ao carregar dados:", err);
-      }
-    };
+  const indexAleatorio = Math.floor(Math.random() * frasesReciclagem.length); 
+  setFrase(frasesReciclagem[indexAleatorio]); 
+  fetchFraseEDados();
+}, []);
 
-    const indexAleatorio = Math.floor(Math.random() * frasesReciclagem.length); 
-    setFrase(frasesReciclagem[indexAleatorio]); 
-    fetchDados();
 
-    const localiza = (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErro('Permissão de localização negada.');
-        return;
-      }
+// Localização
+useEffect(() => {
+  const localizar = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      setErro('Permissão de localização negada.');
+      return;
+    }
 
-      const local = await Location.getCurrentPositionAsync({});
-      setLocalizacao(local);
-    })
+    const local = await Location.getCurrentPositionAsync({});
+    setLocalizacao(local);
+  };
 
-    localiza()
+  localizar();
+}, []);
 
-  }, []);
 
 
   if (loading) {
@@ -73,7 +75,7 @@ export default function Index() {
             overlayColor="rgba(255, 255, 255, 0)"
             source={require('../assets/images/Loading animation for Client book.json')}
             animationStyle={{ width: 300, height: 300 }}
-            speed={0.5}
+            speed={0.8}
             loop={false}
           />
           
