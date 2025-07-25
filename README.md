@@ -8,6 +8,8 @@ iniciar apenas o front: "npx expo start"
 
 para ver a mensagem de wifi desconectado, instale: npx expo install @react-native-community/netinfo
 
+para o modal de conexão com internet aparecer em qualquer tela: npx expo install react-native-paper react-native-safe-area-context
+
 OBS: se quiser iniciar apenas um, entre na pasta devida
 
 Talves seja necessario a instalação de alguns pacotes: 
