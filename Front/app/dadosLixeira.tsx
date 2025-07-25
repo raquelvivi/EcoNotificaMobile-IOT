@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StackedBarChart } from 'react-native-chart-kit';
+import * as Notifications from 'expo-notifications';
+import * as Device from 'expo-device';
+
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -32,6 +35,68 @@ export default function TelaComLocalizacaoEGrafico() {
       const local = await Location.getCurrentPositionAsync({});
       setLocalizacao(local);
     })();
+     (async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      setErro('Permissão de localização negada.');
+      return;
+    }
+
+    const local = await Location.getCurrentPositionAsync({});
+    setLocalizacao(local);
+  })();
+
+  async function getPushTokenAndCheckLixeiras() {
+    if (!Device.isDevice) {
+      alert('Notificações só funcionam em dispositivos físicos.');
+      return;
+    }
+
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+
+    if (finalStatus !== 'granted') {
+      alert('Permissão de notificação negada');
+      return;
+    }
+
+    const token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log('Expo push token:', token);
+
+    // Aqui pega os dados das lixeiras
+    try {
+      const resposta = await fetch('https://econotifica-api.onrender.com/api/lixeira'); // Substitua pelo IP da sua API
+      const lixeiras = await resposta.json();
+
+      const lixeirasCheias = lixeiras.filter(l => l.situacao === 'cheia');
+      console.log('Lixeiras cheias:', lixeirasCheias);
+
+      for (const lixeira of lixeirasCheias) {
+        await fetch('https://exp.host/--/api/v2/push/send', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Accept-encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            to: token,
+            title: 'Lixeira cheia!',
+            body: `A lixeira ${lixeira.nome} está cheia!`,
+          }),
+        });
+      }
+    } catch (e) {
+      console.error('Erro ao buscar lixeiras:', e);
+    }
+  }
+
+  getPushTokenAndCheckLixeiras();
   }, []);
 
   return (
