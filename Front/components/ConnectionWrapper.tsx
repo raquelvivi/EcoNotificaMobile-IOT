@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet, Button, Platform, View, Modal, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, Platform, View, TouchableOpacity } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 import * as IntentLauncher from "expo-intent-launcher";
 import * as Linking from "expo-linking";
 import { LinearGradient } from 'expo-linear-gradient';
+import { Portal } from 'react-native-paper';
 
 export default function ConnectionWrapper({ children }: { children: React.ReactNode }) {
   const [isConnected, setIsConnected] = useState(true);
@@ -11,49 +12,43 @@ export default function ConnectionWrapper({ children }: { children: React.ReactN
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
-      setIsConnected(state.isConnected ?? false);
-      if (!(state.isConnected ?? false)) {
-        setModalVisible(true);
-      } else {
-        setModalVisible(false);
-      }
+      const conectado = state.isConnected ?? false;
+      setIsConnected(conectado);
+      setModalVisible(!conectado);
     });
     return () => unsubscribe();
   }, []);
 
   const openWifiSettings = () => {
     if (Platform.OS === "android") {
-      IntentLauncher.startActivityAsync(
-        IntentLauncher.ActivityAction.WIFI_SETTINGS
-      );
+      IntentLauncher.startActivityAsync(IntentLauncher.ActivityAction.WIFI_SETTINGS);
     } else if (Platform.OS === "ios") {
-      Linking.openURL("App-Prefs:root=WIFI"); // pode funcionar em alguns iOS
+      Linking.openURL("App-Prefs:root=WIFI");
     }
   };
 
   return (
     <>
       {children}
-      <Modal
-        visible={modalVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <LinearGradient
-          colors={['#ffffff', '#80BC82']}
-          style={styles.modalBackground}
-        >
-          <View style={styles.modalContainer}>
-            <Text style={styles.text}>
-              Sem conexão com a internet. Ative o Wi-Fi ou os dados móveis.
-            </Text>
-            <TouchableOpacity style={styles.button} onPress={openWifiSettings}>
-              <Text style={styles.buttonText}>Abrir configurações de Wi-Fi</Text>
-            </TouchableOpacity>
+      <Portal>
+        {modalVisible && (
+          <View style={StyleSheet.absoluteFill}>
+            <LinearGradient
+              colors={['#ffffff', '#80BC82']}
+              style={styles.modalBackground}
+            >
+              <View style={styles.modalContainer}>
+                <Text style={styles.text}>
+                  Sem conexão com a internet. Ative o Wi-Fi ou os dados móveis.
+                </Text>
+                <TouchableOpacity style={styles.button} onPress={openWifiSettings}>
+                  <Text style={styles.buttonText}>Abrir configurações de Wi-Fi</Text>
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
           </View>
-        </LinearGradient>
-      </Modal>
+        )}
+      </Portal>
     </>
   );
 }
