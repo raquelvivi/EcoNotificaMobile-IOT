@@ -3,6 +3,27 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from "react";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { Picker } from '@react-native-picker/picker';
+import * as Notifications from 'expo-notifications';
+
+
+async function salvarTokenNoServidor(userId, expoToken) {
+  try {
+    const response = await fetch('https://econotifica-api.onrender.com/api/user/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, expoToken }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.message || 'Erro ao salvar token no servidor');
+    }
+    console.log('Token salvo no servidor com sucesso!');
+  } catch (error) {
+    console.error('Erro ao salvar token no servidor:', error);
+  }
+}
+
 
 export default function Cadastro() {
   const router = useRouter();
