@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.45)",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     padding: 24,
     borderRadius: 10,
     alignItems: "center",
