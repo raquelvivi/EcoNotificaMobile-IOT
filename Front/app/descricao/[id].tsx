@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { StackedBarChart } from 'react-native-chart-kit';
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -19,20 +20,23 @@ const data = {
   barColors: ['#78eb6dff'],
 };
 
+
+
 export default function TelaComLocalizacaoEGrafico() {
-  const [localizacao, setLocalizacao] = useState(null);
-  const [erro, setErro] = useState(null);
 
-  useEffect(() => {
+  const { id } = useLocalSearchParams();
+
+  console.log (`id: ${id}`)
+
+  const [dados, setDados] = useState({});
+
+
+   useEffect(() => {
     (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErro('Permissão de localização negada.');
-        return;
-      }
+      const resposta = await fetch(`https://econotifica-api.onrender.com/api/lixeira/${id}`);
+      const lixeira = await resposta.json();
+      console.log(lixeira)
 
-      const local = await Location.getCurrentPositionAsync({});
-      setLocalizacao(local);
     })();
 
     getPushTokenAndCheckLixeiras();
@@ -110,19 +114,8 @@ export default function TelaComLocalizacaoEGrafico() {
 
   return (
     <LinearGradient colors={['#ffffff', '#80BC82']} style={styles.gradient}>
+      <Text>ID: {id}</Text>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.localizacaoContainer}>
-          <Text style={styles.titulo}>Localização Atual</Text>
-          {erro && <Text style={styles.texto}>{erro}</Text>}
-          {localizacao ? (
-            <Text style={styles.texto}>
-              Latitude: {localizacao.coords.latitude}{"\n"}
-              Longitude: {localizacao.coords.longitude}
-            </Text>
-          ) : (
-            <Text style={styles.texto}>Obtendo localização...</Text>
-          )}
-        </View>
 
         <View style={styles.graficoContainer}>
           <Text style={styles.titulo}>Cheia por Semana</Text>
@@ -142,12 +135,8 @@ export default function TelaComLocalizacaoEGrafico() {
           />
         </View>
 
-        <View style={styles.simuladorContainer}>
-          <Text style={styles.titulo}>Simular Notificação</Text>
-          <TouchableOpacity onPress={simularNotificacao} style={styles.botao}>
-            <Text style={styles.botaoTexto}>Enviar Notificação Fake</Text>
-          </TouchableOpacity>
-        </View>
+        
+
       </ScrollView>
     </LinearGradient>
   );
@@ -161,14 +150,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 100,
   },
-  localizacaoContainer: {
-    marginBottom: 40,
-  },
   graficoContainer: {
-    alignItems: 'center',
-  },
-  simuladorContainer: {
-    marginTop: 40,
     alignItems: 'center',
   },
   titulo: {

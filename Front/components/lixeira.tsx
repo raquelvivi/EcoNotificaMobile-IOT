@@ -18,34 +18,37 @@ export default function Lixeiras({ dado }: { dado: Lixeira | null }) {
                 return '#8A2BE2'; // violeta (para outros casos)
         }
     };
-      
+
     if (dado) {
-        
+
         return (
-            <Link href="/dadosLixeira" style={[styles.lixeira]}>
-            <View >
-                
-                <Text style={[styles.lixTitulo]}>{dado.nome}</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={[styles.lixTitulo]}>Nivel: </Text>
-                    <Text
-                        style={[
-                            styles.lixTitulo,
-                            { color: getCorSituacao(dado.situacao) }
-                        ]}
-                    >
-                        {dado.situacao}
-                    </Text>
+            <Link href={{
+                pathname: '/descricao/[id]',
+                params: { id: dado.id }
+            }} style={[styles.lixeira]}>
+                <View >
+
+                    <Text style={[styles.lixTitulo]}>{dado.nome}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={[styles.lixTitulo]}>Nivel: </Text>
+                        <Text
+                            style={[
+                                styles.lixTitulo,
+                                { color: getCorSituacao(dado.situacao) }
+                            ]}
+                        >
+                            {dado.situacao}
+                        </Text>
+
+                    </View>
 
                 </View>
-                
-            </View>
-            
+
             </Link>
         );
     }
 
-    
+
 }
 
 
