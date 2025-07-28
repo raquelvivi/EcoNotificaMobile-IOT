@@ -74,7 +74,7 @@ useEffect(() => {
             visible={true}
             overlayColor="rgba(255, 255, 255, 0)"
             source={require('../assets/images/Loading animation for Client book.json')}
-            animationStyle={{ width: 300, height: 300 }}
+            animationStyle={{ width: 300, height: 300, marginTop: -150 }}
             speed={0.8}
             loop={false}
           />
@@ -298,6 +298,7 @@ const styles = StyleSheet.create({
 
   overlay: {
     flex: 1,
+    
     // backgroundColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center',
@@ -308,7 +309,7 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   text2: {
-    marginTop: 600,
+    marginTop: 550,
     zIndex: 21,
     position: "absolute",
     fontSize: 18,
@@ -325,8 +326,8 @@ const styles = StyleSheet.create({
 
   },
   outro:{
-    position: 'relative',
 
+    position: 'relative',
     alignItems: 'center',
   }
 

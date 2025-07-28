@@ -4,6 +4,8 @@ import * as Location from 'expo-location';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StackedBarChart } from 'react-native-chart-kit';
 
+import Bola from '../components/bolaGrafico'
+
 const screenWidth = Dimensions.get("window").width;
 
 const data = {
@@ -37,19 +39,8 @@ export default function TelaComLocalizacaoEGrafico() {
   return (
     <LinearGradient colors={['#ffffff', '#80BC82']} style={styles.gradient}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.localizacaoContainer}>
-          <Text style={styles.titulo}>Localização Atual</Text>
-          {erro && <Text style={styles.texto}>{erro}</Text>}
-          {localizacao ? (
-            <Text style={styles.texto}>
-              Latitude: {localizacao.coords.latitude}{"\n"}
-              Longitude: {localizacao.coords.longitude}
-            </Text>
-          ) : (
-            <Text style={styles.texto}>Obtendo localização...</Text>
-          )}
-        </View>
-
+        
+        <Bola />
         <View style={styles.graficoContainer}>
           <Text style={styles.titulo}>Cheia por Semana</Text>
           <StackedBarChart
@@ -67,6 +58,7 @@ export default function TelaComLocalizacaoEGrafico() {
             style={styles.grafico}
           />
         </View>
+
       </ScrollView>
     </LinearGradient>
   );
