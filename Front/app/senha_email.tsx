@@ -3,6 +3,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function SenhaEmail() {
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -24,8 +26,10 @@ export default function SenhaEmail() {
       }
   
       const data = await response.json();
+      await AsyncStorage.setItem('usuarioId', data.id.toString());
+
       console.log('Usuário logado:', data);
-      router.push('/principal'); // redirecionar após login bem-sucedido
+      router.push('/'); // redirecionar após login bem-sucedido
     } catch (error) {
       console.error('Erro no login:', error);
       Alert.alert('Erro', 'Não foi possível conectar ao servidor');

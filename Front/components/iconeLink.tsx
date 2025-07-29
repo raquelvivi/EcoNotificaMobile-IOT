@@ -14,7 +14,9 @@ import Animated, {
 import { Link } from 'expo-router';
 
 import Feather from 'react-native-vector-icons/Feather';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
 
 
 
@@ -40,10 +42,33 @@ const IconeLink = () => {
 
     const opacity = useSharedValue(1);
 
+    const [id, setId] = useState("");
+
+
+    const verificarLogin = async () => {
+        const idPessoa = await AsyncStorage.getItem('usuarioId');
+        if (idPessoa) {
+            setId(idPessoa)
+        }
+
+        console.log(`id da pessoa logada: ${idPessoa}`)
+
+
+    };
+
+    verificarLogin();
+
+    const router = useRouter();
+
+    const logout = async () => {
+        await AsyncStorage.removeItem('usuarioId'); // ou 'usuarioEmail'
+        router.replace('/'); // redireciona para login ou index
+    };
+
     const cameraAnimateStyles = useAnimatedStyle(() => {
         return {
             transform: [
-                { translateY: transYCamera.value +10 },
+                { translateY: transYCamera.value + 10 },
                 { translateX: interpolate(transYCamera.value, [TRANSLATE_Y, 0], [20, 0]) },
                 { scale: interpolate(transYCamera.value, [TRANSLATE_Y, 0], [1, 0]) }
             ],
@@ -63,7 +88,7 @@ const IconeLink = () => {
     const threeAnimateStyles = useAnimatedStyle(() => {
         return {
             transform: [
-                { translateY: interpolate(transYthree.value, [TRANSLATE_Y, 0], [(TRANSLATE_Y / 2)+50, 10]) },
+                { translateY: interpolate(transYthree.value, [TRANSLATE_Y, 0], [(TRANSLATE_Y / 2) + 50, 10]) },
                 { translateX: interpolate(transYthree.value, [TRANSLATE_Y, 0], [-80, 0]) },
                 { scale: interpolate(transYthree.value, [TRANSLATE_Y, 0], [1, 0]) }
             ],
@@ -95,26 +120,34 @@ const IconeLink = () => {
 
             </Pressable>
 
+            {id ? (
+                <Animated.View style={[styles.Button, styles.border, cameraAnimateStyles]}>
+                    <Pressable onPress={logout}>
+                        <AntDesignIcons name="poweroff" size={30} color="#ffffff" />
+                    </Pressable>
+                </Animated.View>
 
-            <Animated.View style={[styles.Button, styles.border, cameraAnimateStyles]}>
-                <Link href="/identificacao" >
-                    <Feather name="user-plus" size={30} color="#ffffff" />
-                </Link>
-                {/* user-plus do fateer para entrar e user , log-in*/}
+                
+            ) : (
+                <Animated.View style={[styles.Button, styles.border, cameraAnimateStyles]}>
 
-            </Animated.View>
+                    <Link href="/identificacao" >
+                        <Feather name="user-plus" size={30} color="#ffffff" />
+                    </Link>
+                </Animated.View>
+            )}
+
+
 
             <Animated.View style={[styles.Button, styles.border, segundAnimateStyles]}>
                 <Link href="/teste" >
                     <AntDesignIcons name="user" size={30} color="#ffffff" />
                 </Link>
-                {/* poweroff para sair do email*/}
-
             </Animated.View>
 
             <Animated.View style={[styles.Button, styles.border, threeAnimateStyles]}>
                 <Link href="/dispositivos" >
-                    <AntDesignIcons name="delete" size={30} color="#ffffff" /> 
+                    <AntDesignIcons name="delete" size={30} color="#ffffff" />
                     {/* <Feather name="plus" size={15} color="#ffffff" /> o outro tava com size 20 */}
                 </Link>
                 {/* poweroff para sair do email*/}
@@ -163,7 +196,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 2,
-        
+
     },
 
     Button: {
@@ -173,9 +206,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         zIndex: 1,
-        
+
     },
-    border:{
+    border: {
         // borderWidth: 1,
         // borderColor: "#ffffff",
         borderRadius: 30,

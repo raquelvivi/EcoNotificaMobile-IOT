@@ -7,6 +7,9 @@ import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 
+import Bola from '../../components/bolaGrafico'
+
+
 const screenWidth = Dimensions.get("window").width;
 
 const data = {
@@ -117,6 +120,7 @@ export default function TelaComLocalizacaoEGrafico() {
       <Text>ID: {id}</Text>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
 
+<Bola />
         <View style={styles.graficoContainer}>
           <Text style={styles.titulo}>Cheia por Semana</Text>
           <StackedBarChart

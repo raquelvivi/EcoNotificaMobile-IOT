@@ -49,7 +49,7 @@ export default function RootLayout() {
     const responseListener = Notifications.addNotificationResponseReceivedListener(response => {
       const data = response.notification.request.content.data;
       
-      // Redireciona para a tela de dados da lixeira quando a notificação é clicada
+      // Redireciona para a tela de dados da lixeira quando a notificação é clicada   VAI TER DE MUDAR ISSO
       if (data.tipo === 'status_lixeira') {
         router.push('/dadosLixeira');
       }

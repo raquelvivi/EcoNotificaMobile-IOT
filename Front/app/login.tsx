@@ -14,10 +14,13 @@ async function salvarTokenNoServidor(userId, expoToken) {
       body: JSON.stringify({ userId, expoToken }),
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const data = await response.json();
       throw new Error(data.message || 'Erro ao salvar token no servidor');
     }
+
+    
     console.log('Token salvo no servidor com sucesso!');
   } catch (error) {
     console.error('Erro ao salvar token no servidor:', error);

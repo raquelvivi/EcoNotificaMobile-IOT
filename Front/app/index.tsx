@@ -5,9 +5,9 @@ import { useRouter } from 'expo-router';
 import MapView, { Marker } from 'react-native-maps';
 import AnimatedLoader from 'react-native-animated-loader';
 import * as Location from 'expo-location';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Lixeiras from '../components/lixeira';
-// import Grupo from '../components/grupos';
 import IconeLink from '../components/iconeLink';
 
 import frasesReciclagem from '../data/frasesReciclagem'; 
@@ -26,6 +26,7 @@ export default function Index() {
   const [localizacao, setLocalizacao] = useState(null);
   const [erro, setErro] = useState(null);
 
+  const [id, setId] = useState(""); 
   // Frase e dados
 useEffect(() => {
   const fetchFraseEDados = async () => {
@@ -41,8 +42,20 @@ useEffect(() => {
         }, 5500); // 25000
     }
   };
+  const verificarLogin = async () => {
+    const idPessoa = await AsyncStorage.getItem('usuarioId');
+    if (idPessoa) {
+      setId(idPessoa)
+    }
+    
+    console.log(`id da pessoa logada: ${idPessoa}`)
+    
 
-  const indexAleatorio = Math.floor(Math.random() * frasesReciclagem.length); 
+  };
+
+  verificarLogin();
+
+  const indexAleatorio = Math.floor(Math.random() * frasesReciclagem.length);
   setFrase(frasesReciclagem[indexAleatorio]); 
   fetchFraseEDados();
 }, []);
