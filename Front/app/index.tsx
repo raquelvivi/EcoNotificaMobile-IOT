@@ -27,58 +27,51 @@ export default function Index() {
   const [erro, setErro] = useState(null);
 
   const [id, setId] = useState(""); 
-  // Frase e dados
-useEffect(() => {
-  const fetchFraseEDados = async () => {
 
-    // if (id){
+  useEffect(() => {
+    const verificarLogin = async () => {
+      const idPessoa = await AsyncStorage.getItem('usuarioId');
+      if (idPessoa) {
+        setId(idPessoa)
+      }
+
+      console.log(`id da pessoa logada: ${idPessoa}`)
+    };
+
+    verificarLogin();
+
+    const indexAleatorio = Math.floor(Math.random() * frasesReciclagem.length);
+    setFrase(frasesReciclagem[indexAleatorio]);
+    
+  }, []);
+
+  // Frase e dados
+  useEffect(() => {
+    const fetchFraseEDados = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/lixeira/pessoa/${id}`);
+        let url = '';
+
+        if (id) {
+          url = `${API_BASE_URL}/api/lixeira/pessoa/${id}`;
+        } else {
+          url = `${API_BASE_URL}/api/lixeira`;
+        }
+
+        const res = await fetch(url);
         const data: Lixeira[] = await res.json();
         setDados(data);
-        console.log(data)
+        console.log(data);
       } catch (err) {
         console.error("Erro ao carregar dados:", err);
       } finally {
         setTimeout(() => {
           setLoading(false);
-        }, 5500); // 25000
+        }, 2500);
       }
-    // }else {
-    //   try {
-    //     const res = await fetch(`${API_BASE_URL}/api/lixeira`);
-    //     const data: Lixeira[] = await res.json();
-    //     setDados(data);
-    //     console.log(data)
-    //   } catch (err) {
-    //     console.error("Erro ao carregar dados:", err);
-    //   } finally {
-    //     setTimeout(() => {
-    //       setLoading(false);
-    //     }, 5500); // 25000
-    //   }
-    // }
-      
-    
-    
-  };
-  const verificarLogin = async () => {
-    const idPessoa = await AsyncStorage.getItem('usuarioId');
-    if (idPessoa) {
-      setId(idPessoa)
-    }
-    
-    console.log(`id da pessoa logada: ${idPessoa}`)
-    
+    };
 
-  };
-
-  verificarLogin();
-
-  const indexAleatorio = Math.floor(Math.random() * frasesReciclagem.length);
-  setFrase(frasesReciclagem[indexAleatorio]); 
-  fetchFraseEDados();
-}, []);
+    fetchFraseEDados();
+  }, [id]); // <- Executa quando o `id` estiver pronto
 
 
 // Localização
