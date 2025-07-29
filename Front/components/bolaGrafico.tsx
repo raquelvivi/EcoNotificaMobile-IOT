@@ -13,17 +13,20 @@ const { width } = Dimensions.get("window");
 const SIZE = 150; //tamanho da bola
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
-const quanti = 0 
-const valor = porcent(quanti)
+
 
 function porcent(valor: number) {
     if (valor == 0) return 150;
-    else if (valor >= 80) return ( 15 - ( valor - 80) );
+    else if (valor >= 80) return (15 - (valor - 80));
     else if (valor >= 30) return (70 - (valor - 50)); //(80 - (valor - 45))
     else return (150 - (valor + 20));
 }
 
-export default function WaterWaveCircle() {
+export default function WaterWaveCircle({ valores } : { valores : number }) {
+
+    const porcentagem = valores
+    const valor = porcent(porcentagem)
+
     const waveOffset = useSharedValue(0);
 
     useEffect(() => {
@@ -62,12 +65,12 @@ export default function WaterWaveCircle() {
             <Svg height={SIZE} width={SIZE} style={styles.bola}>
                 <Defs >
                     <ClipPath id="clip" >
-                        <Circle  cx={SIZE / 2} cy={SIZE / 2} r={SIZE / 2} />
+                        <Circle cx={SIZE / 2} cy={SIZE / 2} r={SIZE / 2} />
                     </ClipPath>
                 </Defs>
 
                 {/* Fundo do círculo */}
-                <Circle 
+                <Circle
                     cx={SIZE / 2}
                     cy={SIZE / 2}
                     r={SIZE / 2}
@@ -81,7 +84,7 @@ export default function WaterWaveCircle() {
                 </G>
 
                 {/* Texto */}
-                <Text style={styles.text}>{quanti}%</Text>
+                <Text style={styles.text}>{porcentagem}%</Text>
             </Svg>
         </View>
     );
@@ -102,7 +105,7 @@ const styles = StyleSheet.create({
         top: SIZE / 2 - 20,
         right: SIZE / 2 - 30,
     },
-    bola:{
+    bola: {
         borderWidth: 2,
         borderColor: '#000000'
     },

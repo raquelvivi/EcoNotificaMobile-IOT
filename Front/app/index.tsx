@@ -24,7 +24,7 @@ export default function Index() {
   const [loading, setLoading] = useState(true);
   const [frase, setFrase] = useState(''); 
   const [localizacao, setLocalizacao] = useState(null);
-  const [erro, setErro] = useState(null);
+  const [erro, setErro] = useState('');
 
   const [id, setId] = useState(""); 
 
@@ -37,7 +37,7 @@ export default function Index() {
 
       console.log(`id da pessoa logada: ${idPessoa}`)
     };
-
+ //if se não tiver pessoa buscar.
     verificarLogin();
 
     const indexAleatorio = Math.floor(Math.random() * frasesReciclagem.length);
@@ -60,7 +60,6 @@ export default function Index() {
         const res = await fetch(url);
         const data: Lixeira[] = await res.json();
         setDados(data);
-        console.log(data);
       } catch (err) {
         console.error("Erro ao carregar dados:", err);
       } finally {

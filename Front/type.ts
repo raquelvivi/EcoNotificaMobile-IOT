@@ -17,4 +17,6 @@ export type Lixeira = {
     latitude: string,
     longitude: string,
     user_id: number,
+    porcentagem: number,
+
 } 

@@ -8,7 +8,7 @@ import * as Device from 'expo-device';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 
 import Bola from '../../components/bolaGrafico'
-
+import { Lixeira } from '../../type'
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -29,20 +29,22 @@ export default function TelaComLocalizacaoEGrafico() {
 
   const { id } = useLocalSearchParams();
 
-  console.log (`id: ${id}`)
-
-  const [dados, setDados] = useState({});
+  const [dados, setDados] = useState();
 
 
    useEffect(() => {
-    (async () => {
+    if (dados != null){
+      (async () => {
       const resposta = await fetch(`https://econotifica-api.onrender.com/api/lixeira/${id}`);
       const lixeira = await resposta.json();
-      console.log(lixeira)
+      setDados(lixeira)
+      console.log(dados.porcentagem)
 
     })();
 
-    getPushTokenAndCheckLixeiras();
+      getPushTokenAndCheckLixeiras();
+    }
+    
   }, []);
 
   async function getPushTokenAndCheckLixeiras() {
@@ -120,7 +122,11 @@ export default function TelaComLocalizacaoEGrafico() {
       <Text>ID: {id}</Text>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
 
-<Bola />
+        {dados?.porcentagem !== undefined ? (
+          <Bola valores={dados.porcentagem} />
+        ) : (
+          <Text>Carregando lixeira...</Text>
+        )}
         <View style={styles.graficoContainer}>
           <Text style={styles.titulo}>Cheia por Semana</Text>
           <StackedBarChart
