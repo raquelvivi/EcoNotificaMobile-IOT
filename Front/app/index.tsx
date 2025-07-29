@@ -30,17 +30,37 @@ export default function Index() {
   // Frase e dados
 useEffect(() => {
   const fetchFraseEDados = async () => {
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/lixeira`);
-      const data: Lixeira[] = await res.json();
-      setDados(data);
-    } catch (err) {
-      console.error("Erro ao carregar dados:", err);
-    } finally {
-       setTimeout(() => {
+
+    // if (id){
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/lixeira/pessoa/${id}`);
+        const data: Lixeira[] = await res.json();
+        setDados(data);
+        console.log(data)
+      } catch (err) {
+        console.error("Erro ao carregar dados:", err);
+      } finally {
+        setTimeout(() => {
           setLoading(false);
         }, 5500); // 25000
-    }
+      }
+    // }else {
+    //   try {
+    //     const res = await fetch(`${API_BASE_URL}/api/lixeira`);
+    //     const data: Lixeira[] = await res.json();
+    //     setDados(data);
+    //     console.log(data)
+    //   } catch (err) {
+    //     console.error("Erro ao carregar dados:", err);
+    //   } finally {
+    //     setTimeout(() => {
+    //       setLoading(false);
+    //     }, 5500); // 25000
+    //   }
+    // }
+      
+    
+    
   };
   const verificarLogin = async () => {
     const idPessoa = await AsyncStorage.getItem('usuarioId');
@@ -172,7 +192,7 @@ useEffect(() => {
             </MapView>)} */}
 
 
-            {<MapView
+            {dados && (<MapView
               style={styles.map}
               initialRegion={{
                 latitude: localizacao?.coords.latitude || -22.9528074,
@@ -194,7 +214,7 @@ useEffect(() => {
                 </Marker>
               ))}
 
-            </MapView>}
+            </MapView>) }
           </View>
 
           <Image source={require('../assets/images/icone_reciclagem.png')} style={[styles.icone]} />
