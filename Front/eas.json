@@ -9,10 +9,15 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "autoIncrement": false
+      }
     },
     "production": {
-      "autoIncrement": true
+      "android": {
+        "autoIncrement": false
+      }
     }
   },
   "submit": {
