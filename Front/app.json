@@ -2,7 +2,7 @@
   "expo": {
     "name": "ECONOTIFICA",
     "slug": "Front",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/images/ecologia.png",
     "scheme": "econotifica",
@@ -16,7 +16,7 @@
       }
     },
     "android": {
-      "versionCode": 5,
+      "versionCode": 6,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/ecologia.png",
         "backgroundColor": "#ffffff",
