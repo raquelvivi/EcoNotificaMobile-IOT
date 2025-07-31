@@ -10,16 +10,16 @@ import Animated, {
 import { useState } from 'react';
 
 const { width } = Dimensions.get("window");
-const SIZE = 150; //tamanho da bola
+const SIZE = 100; //tamanho da bola
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
 
 
 function porcent(valor: number) {
     if (valor == 0) return 150;
-    else if (valor >= 80) return (15 - (valor - 80));
-    else if (valor >= 30) return (70 - (valor - 50)); //(80 - (valor - 45))
-    else return (150 - (valor + 20));
+    else if (valor >= 80) return (20 - (valor - 80));
+    else if (valor >= 1) return (50 - (valor - 50)); //(80 - (valor - 45))
+    
 }
 
 export default function WaterWaveCircle({ valores } : { valores : number }) {
@@ -37,8 +37,8 @@ export default function WaterWaveCircle({ valores } : { valores : number }) {
     }, []);
 
     const animatedProps = useAnimatedProps(() => {
-        const amplitude = 12; //altura da onda
-        const frequency = 1.5;
+        const amplitude = 8; //altura da onda
+        const frequency = 1.3;
         const wavePoints = [];
 
         for (let x = 0; x <= SIZE; x++) {
@@ -69,21 +69,18 @@ export default function WaterWaveCircle({ valores } : { valores : number }) {
                     </ClipPath>
                 </Defs>
 
-                {/* Fundo do círculo */}
                 <Circle
                     cx={SIZE / 2}
                     cy={SIZE / 2}
                     r={SIZE / 2}
-                    fill="#FFA726"
+                    fill="#4DE85F"
                     opacity={0.3}
                 />
 
-                {/* Onda */}
                 <G clipPath="url(#clip)" >
-                    <AnimatedPath animatedProps={animatedProps} fill="#FFA726" />
+                    <AnimatedPath animatedProps={animatedProps} fill="#4DE85F" />
                 </G>
 
-                {/* Texto */}
                 <Text style={styles.text}>{porcentagem}%</Text>
             </Svg>
         </View>
@@ -94,17 +91,18 @@ const styles = StyleSheet.create({
     container: {
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 100,
-
+        marginTop: 0,
     },
+
     text: {
         position: "absolute",
         fontSize: 22,
         fontWeight: "bold",
-        color: "#000",
+        color: "#000000",
         top: SIZE / 2 - 20,
         right: SIZE / 2 - 30,
     },
+    
     bola: {
         borderWidth: 2,
         borderColor: '#000000'

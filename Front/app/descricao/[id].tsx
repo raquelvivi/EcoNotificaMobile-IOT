@@ -32,19 +32,20 @@ export default function TelaComLocalizacaoEGrafico() {
   const [dados, setDados] = useState();
 
 
-   useEffect(() => {
-    if (dados != null){
+  useEffect(() => {
+    if (dados == null) {
       (async () => {
-      const resposta = await fetch(`https://econotifica-api.onrender.com/api/lixeira/${id}`);
-      const lixeira = await resposta.json();
-      setDados(lixeira)
-      console.log(dados.porcentagem)
+        const resposta = await fetch(`https://econotifica-api.onrender.com/api/lixeira/${id}`);
+        const lixeira = await resposta.json();
+        setDados(lixeira)
+        console.log(dados)
+        console.log(dados.porcentagem)
 
-    })();
+      })();
 
       getPushTokenAndCheckLixeiras();
     }
-    
+
   }, []);
 
   async function getPushTokenAndCheckLixeiras() {
@@ -118,15 +119,24 @@ export default function TelaComLocalizacaoEGrafico() {
   };
 
   return (
-    <LinearGradient colors={['#ffffff', '#80BC82']} style={styles.gradient}>
+    <View style={styles.gradient}>
       <Text>ID: {id}</Text>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
 
-        {dados?.porcentagem !== undefined ? (
-          <Bola valores={dados.porcentagem} />
-        ) : (
-          <Text>Carregando lixeira...</Text>
-        )}
+        <View style={styles.Container}>
+          <Text style={styles.titulo}>{dados?.nome}</Text>
+
+          {dados?.porcentagem !== undefined ? (
+            <View style={styles.BolaContainer}>
+              <Bola valores={dados.porcentagem} />
+            </ View>
+          ) : (
+            <Text>Carregando</Text>
+          )}
+        </View>
+
+
+
         <View style={styles.graficoContainer}>
           <Text style={styles.titulo}>Cheia por Semana</Text>
           <StackedBarChart
@@ -145,16 +155,17 @@ export default function TelaComLocalizacaoEGrafico() {
           />
         </View>
 
-        
+
 
       </ScrollView>
-    </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
+    backgroundColor: "#D8FDD9"
   },
   scrollContainer: {
     padding: 20,
@@ -162,6 +173,16 @@ const styles = StyleSheet.create({
   },
   graficoContainer: {
     alignItems: 'center',
+  },
+  Container: {
+    padding: 20,
+    borderRadius: 40,
+    backgroundColor: "#ffffff",
+    borderWidth: 1,
+
+  },
+  BolaContainer:{
+    
   },
   titulo: {
     fontSize: 18,
