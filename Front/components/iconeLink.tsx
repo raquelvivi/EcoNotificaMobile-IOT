@@ -140,7 +140,7 @@ const IconeLink = () => {
 
 
             <Animated.View style={[styles.Button, styles.border, segundAnimateStyles]}>
-                <Link href="/teste" >
+                <Link href="/perfil" >
                     <AntDesignIcons name="user" size={30} color="#ffffff" />
                 </Link>
             </Animated.View>
