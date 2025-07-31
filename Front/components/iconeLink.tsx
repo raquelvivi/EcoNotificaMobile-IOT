@@ -129,8 +129,7 @@ const IconeLink = () => {
 
                 
             ) : (
-                <Animated.View style={[styles.Button, styles.border, cameraAnimateStyles]}>
-
+                <Animated.View style={[styles.Button, styles.border, cameraAnimateStyles]}> 
                     <Link href="/identificacao" >
                         <Feather name="user-plus" size={30} color="#ffffff" />
                     </Link>
