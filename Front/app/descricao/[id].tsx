@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import * as Location from 'expo-location';
-import { LinearGradient } from 'expo-linear-gradient';
-import { StackedBarChart } from 'react-native-chart-kit';
+import {  LineChart, ProgressChart } from 'react-native-chart-kit';
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
+import Feather from 'react-native-vector-icons/Feather';
 
 import Bola from '../../components/bolaGrafico'
 import { Lixeira } from '../../type'
@@ -13,15 +13,22 @@ import { Lixeira } from '../../type'
 const screenWidth = Dimensions.get("window").width;
 
 const data = {
-  labels: ["Jan", "Feb", "Mar", "Apr"],
-  data: [
-    [3840],
-    [1600],
-    [640],
-    [3320]
+  labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+  datasets: [
+    {
+      data: [2, 4, 3, 8, 9, 6],
+    },
   ],
-  barColors: ['#78eb6dff'],
 };
+
+const chartConfig = {
+  backgroundGradientFrom: '#15d76c',
+  backgroundGradientTo: '#00863cff',
+  decimalPlaces: 0, //arredonda os numeros na culuna
+  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+};
+
+
 
 
 
@@ -33,18 +40,22 @@ export default function TelaComLocalizacaoEGrafico() {
 
 
   useEffect(() => {
+
     if (dados == null) {
+
       (async () => {
         const resposta = await fetch(`https://econotifica-api.onrender.com/api/lixeira/${id}`);
         const lixeira = await resposta.json();
         setDados(lixeira)
-        console.log(dados)
-        console.log(dados.porcentagem)
+        // console.log(lixeira)
 
       })();
-
+      
+      
+  
       getPushTokenAndCheckLixeiras();
     }
+
 
   }, []);
 
@@ -120,26 +131,38 @@ export default function TelaComLocalizacaoEGrafico() {
 
   return (
     <View style={styles.gradient}>
-      <Text>ID: {id}</Text>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.sombra}>
+          <View style={styles.Container}>
+            <Text style={styles.titulo}>{dados?.nome}</Text>
 
-        <View style={styles.Container}>
-          <Text style={styles.titulo}>{dados?.nome}</Text>
+            <View style={styles.linha}>
 
-          {dados?.porcentagem !== undefined ? (
-            <View style={styles.BolaContainer}>
-              <Bola valores={dados.porcentagem} />
-            </ View>
-          ) : (
-            <Text>Carregando</Text>
-          )}
+              <View style={{ alignItems: 'flex-start' }}>
+                <Text style={styles.texto}>Status: {dados?.situacao}</Text>
+                <Text style={styles.texto}>Grupos: {dados?.grupo || "nenhum"}</Text>
+              </View>
+              
+
+              {dados?.porcentagem !== undefined ? (
+                <View style={styles.BolaContainer}>
+                  <Bola valores={dados.porcentagem} />
+
+
+                </ View>
+              ) : (
+                <Text>Carregando</Text>
+              )}
+
+              
+            </View>
+          </View>
         </View>
 
 
 
         <View style={styles.graficoContainer}>
-          <Text style={styles.titulo}>Cheia por Semana</Text>
-          <StackedBarChart
+          {/* <StackedBarChart
             data={data}
             width={screenWidth - 40}
             height={220}
@@ -152,8 +175,34 @@ export default function TelaComLocalizacaoEGrafico() {
               labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             }}
             style={styles.grafico}
+          /> */}
+          { /* https://awereactnative.com/react-native-charting-libraries/ */}
+          <LineChart 
+            data={data} //conteudo
+            width={screenWidth - 20}  //tamanho
+            height={220}  //altura
+            chartConfig={chartConfig} //styles
+            bezier //arredonda a linha principal
+            withInnerLines={false} //tira as linhas pontilhadas
+            //withDots={true} // meche nos pontos
+            fromZero={true} // os numeros da esquerda começam em zero
+
           />
         </View>
+
+
+        {/* <Feather name="thermometer" size={30} color="#00863c" />
+        <Feather name="droplet" size={30} color="#00863c" /> */}
+
+        <View style={[styles.linha, {marginTop: 40} ]}>
+          <Text style={{ fontSize: 30 }}>💧</Text>
+          <Text style={{ fontSize: 30 }}>🌡</Text>
+        </View>
+        <View style={[styles.linha, { marginTop: 10 }]}>
+          <Text style={{ fontSize: 15 }}>{dados?.umidade || "não registrado"}</Text>
+          <Text style={{ fontSize: 15 }}>{dados?.tempe || "não registrado"}</Text>
+        </View>
+        
 
 
 
@@ -163,6 +212,12 @@ export default function TelaComLocalizacaoEGrafico() {
 }
 
 const styles = StyleSheet.create({
+  linha: {
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around'
+  },
   gradient: {
     flex: 1,
     backgroundColor: "#D8FDD9"
@@ -172,17 +227,35 @@ const styles = StyleSheet.create({
     paddingTop: 100,
   },
   graficoContainer: {
-    alignItems: 'center',
+    marginTop: 40,
+    borderRadius: 16,
+    overflow: 'hidden',
+    elevation: 5, //groçura
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   Container: {
-    padding: 20,
     borderRadius: 40,
-    backgroundColor: "#ffffff",
-    borderWidth: 1,
+
+    backgroundColor: '#ffffff',
+    padding: 16,
 
   },
-  BolaContainer:{
-    
+
+  sombra: {
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 0,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+  },
+  BolaContainer: {
+
   },
   titulo: {
     fontSize: 18,
@@ -191,8 +264,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   texto: {
-    fontSize: 16,
-    textAlign: 'center',
+    fontSize: 17,
+    padding: 5,
     color: '#000',
   },
   grafico: {
