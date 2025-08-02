@@ -10,7 +10,7 @@ interface Lixeira {
   situacao: 'Cheia' | 'Parcial' | 'Vazia';
   conectado: boolean;
   porcentagem: number;
-}
+} 
 
 export default function Dispositivos() {
   const navigation = useNavigation();
