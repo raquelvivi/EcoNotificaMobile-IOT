@@ -10,6 +10,7 @@ interface Lixeira {
   situacao: 'Cheia' | 'Parcial' | 'Vazia';
   conectado: boolean;
   porcentagem: number;
+  temperatura?: number;
 } 
 
 export default function Dispositivos() {
@@ -86,6 +87,10 @@ export default function Dispositivos() {
                         Conectado - {situacao === 'Cheia' ? 'Cheio' : situacao === 'Parcial' ? 'Parcial' : 'Vazio'}
                       </Text>
                       <Text style={styles.percent}>Nível: {item.porcentagem}%</Text>
+                      {item.temperatura !== undefined && (
+                      <Text style={styles.temp}>Temperatura: {item.temperatura.toFixed(1)}°C</Text>
+                        )}
+
                     </>
                   ) : (
                     <Text style={[styles.status, styles.notConnected]}>
@@ -192,4 +197,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     opacity: 0.7,
   },
+  temp: {
+  fontSize: 14,
+  marginTop: 2,
+  color: '#2e4d30',
+},
+
 });
