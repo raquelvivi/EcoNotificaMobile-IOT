@@ -205,6 +205,8 @@ export default function TelaComLocalizacaoEGrafico() {
         
 
 
+          {/* ADICIONAR BOTÃO DE MUDAR NOME E DELETAR */}
+
 
       </ScrollView>
     </View>
