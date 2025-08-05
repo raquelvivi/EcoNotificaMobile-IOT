@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import * as Location from 'expo-location';
-import {  LineChart, ProgressChart } from 'react-native-chart-kit';
+import { LineChart, ProgressChart } from 'react-native-chart-kit';
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import Feather from 'react-native-vector-icons/Feather';
+import AnimatedLoader from 'react-native-animated-loader';
 
 import Bola from '../../components/bolaGrafico'
 import { Lixeira } from '../../type'
@@ -37,6 +38,7 @@ export default function TelaComLocalizacaoEGrafico() {
   const { id } = useLocalSearchParams();
 
   const [dados, setDados] = useState();
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
@@ -48,11 +50,18 @@ export default function TelaComLocalizacaoEGrafico() {
         const lixeira = await resposta.json();
         setDados(lixeira)
         // console.log(lixeira)
-
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       })();
-      
-      
-  
+
+
+
+
+
+
+
+
       getPushTokenAndCheckLixeiras();
     }
 
@@ -129,6 +138,24 @@ export default function TelaComLocalizacaoEGrafico() {
     }
   };
 
+  if (loading) {
+    return (
+      <View style={styles.outro}>
+        <View style={styles.overlay}>
+          <AnimatedLoader
+            visible={true}
+            overlayColor="rgba(255, 255, 255, 0)"
+            source={require('../../assets/images/Loading animation for Client book.json')}
+            animationStyle={{ width: 300, height: 300, marginTop: -150 }}
+            speed={1}
+            loop={false}
+          />
+
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.gradient}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -139,22 +166,20 @@ export default function TelaComLocalizacaoEGrafico() {
             <View style={styles.linha}>
 
               <View style={{ alignItems: 'flex-start' }}>
-                <Text style={styles.texto}>Status: {dados?.situacao}</Text>
+                <Text style={styles.texto}>Status: {dados?.situacao || "Manutenção"}</Text>
                 <Text style={styles.texto}>Grupos: {dados?.grupo || "nenhum"}</Text>
               </View>
-              
 
-              {dados?.porcentagem !== undefined ? (
+
+              {dados?.porcentagem !== undefined && (
                 <View style={styles.BolaContainer}>
                   <Bola valores={dados.porcentagem} />
 
 
                 </ View>
-              ) : (
-                <Text>Carregando</Text>
               )}
 
-              
+
             </View>
           </View>
         </View>
@@ -162,22 +187,8 @@ export default function TelaComLocalizacaoEGrafico() {
 
 
         <View style={styles.graficoContainer}>
-          {/* <StackedBarChart
-            data={data}
-            width={screenWidth - 40}
-            height={220}
-            chartConfig={{
-              backgroundColor: "#fff",
-              backgroundGradientFrom: "#fff",
-              backgroundGradientTo: "#fff",
-              decimalPlaces: 0,
-              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-            }}
-            style={styles.grafico}
-          /> */}
-          { /* https://awereactnative.com/react-native-charting-libraries/ */}
-          <LineChart 
+
+          <LineChart
             data={data} //conteudo
             width={screenWidth - 20}  //tamanho
             height={220}  //altura
@@ -191,21 +202,18 @@ export default function TelaComLocalizacaoEGrafico() {
         </View>
 
 
-        {/* <Feather name="thermometer" size={30} color="#00863c" />
-        <Feather name="droplet" size={30} color="#00863c" /> */}
-
-        <View style={[styles.linha, {marginTop: 40} ]}>
+        <View style={[styles.linha, { marginTop: 40 }]}>
           <Text style={{ fontSize: 30 }}>💧</Text>
           <Text style={{ fontSize: 30 }}>🌡</Text>
         </View>
         <View style={[styles.linha, { marginTop: 10 }]}>
-          <Text style={{ fontSize: 15 }}>{dados?.umidade || "não registrado"}</Text>
-          <Text style={{ fontSize: 15 }}>{dados?.tempe || "não registrado"}</Text>
+          <Text style={{ fontSize: 15 }}>{dados?.umidade || "0%"}</Text>
+          <Text style={{ fontSize: 15 }}>{dados?.temperatura || "não registrado"}°</Text>
         </View>
-        
 
 
-          {/* ADICIONAR BOTÃO DE MUDAR NOME E DELETAR */}
+
+        {/* ADICIONAR BOTÃO DE MUDAR NOME E DELETAR */}
 
 
       </ScrollView>
@@ -286,5 +294,18 @@ const styles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+
+  outro: {
+
+    position: 'relative',
+    alignItems: 'center',
+  },
+  overlay: {
+    flex: 1,
+
+    // backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

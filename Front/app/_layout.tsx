@@ -73,6 +73,7 @@ export default function RootLayout() {
           <Stack.Screen name="index" />
           <Stack.Screen name="login" />
           <Stack.Screen name="quem" />
+          <Stack.Screen name="teste" />
           <Stack.Screen name="cadastroUser" />
           <Stack.Screen name="nova_senha" />
           <Stack.Screen name="senha_email" />
