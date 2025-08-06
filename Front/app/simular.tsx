@@ -1,3 +1,4 @@
+// Essa tela foi criada para simular notificação. (vamos ter que mudar para a notificação se comunicar com a placa)
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import * as Notifications from "expo-notifications";

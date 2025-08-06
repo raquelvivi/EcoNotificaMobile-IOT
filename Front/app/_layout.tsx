@@ -37,8 +37,7 @@ export default function RootLayout() {
     // Listener para notificações recebidas com o app em primeiro plano
     const notificationListener = Notifications.addNotificationReceivedListener(notification => {
       console.log('Notificação recebida:', notification);
-      
-      // Você pode adicionar lógica adicional aqui
+    
       const data = notification.request.content.data;
       if (data.simulada) {
         console.log('Notificação simulada recebida');

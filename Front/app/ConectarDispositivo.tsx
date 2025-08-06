@@ -19,7 +19,7 @@ export default function ConectarDispositivo() {
       return;
     }
 
-    // Aqui você pode conectar com bluetooth, API ou MQTT futuramente
+    // Conectar com bluetooth, API ou MQTT futuramente
     Alert.alert('🔗 Dispositivo', `Tentando conectar com o dispositivo de serial: ${serial}`);
   };
 

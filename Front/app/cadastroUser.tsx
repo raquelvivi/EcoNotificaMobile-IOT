@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 20,
     borderWidth: 1.5,
-    borderColor: '#3b6d42', // contorno escuro sutil
+    borderColor: '#3b6d42', // contorno escuro
   },
   formContainer: {
     paddingBottom: 20,

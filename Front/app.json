@@ -20,8 +20,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/ecologia.png",
         "backgroundColor": "#ffffff",
-	"monochromeImage": "./assets/images/ecologia.png"
-      },
+        "monochromeImage": "./assets/images/ecologia.png"
+      }, 
       "edgeToEdgeEnabled": true,
       "package": "com.welsonrodrigues.Front", 
       "config": {
