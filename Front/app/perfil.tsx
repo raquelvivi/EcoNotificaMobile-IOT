@@ -50,6 +50,7 @@ export default function Perfil() {
     return (
       <View style={styles.centered}>
         <Text>Não foi possível carregar as informações do perfil.</Text>
+        <Text>(Nenhum usuário logado).</Text>
       </View>
     );
   }
@@ -73,7 +74,7 @@ export default function Perfil() {
         <View style={styles.divider} />
 
         <View style={styles.rightPanel}>
-          <Text style={styles.sectionTitle}>Informação</Text>
+          <Text style={styles.sectionTitle}>Informações</Text>
           <View style={styles.row}>
             <View style={styles.infoBlock}>
               <Text style={styles.label}>Email</Text>
@@ -89,17 +90,17 @@ export default function Perfil() {
           <Text style={styles.sectionTitle}>Projetos</Text>
           <View style={styles.row}>
             <View style={styles.infoBlock}>
-              <Text style={styles.label}>lixeiras conectadas</Text>
+              <Text style={styles.label}>Lixeiras Conectadas</Text>
               {/* O backend já envia um array 'lixeiras', então usamos o tamanho dele */}
               <Text style={styles.value}>{usuario.lixeiras?.length || 0}</Text>
             </View>
           </View>
 
-          <View style={styles.socialRow}>
+          {/* <View style={styles.socialRow}>
             <FontAwesome name="facebook" size={20} color="#1B4242" />
             <FontAwesome name="twitter" size={20} color="#1B4242" style={styles.icon} />
             <FontAwesome name="instagram" size={20} color="#1B4242" />
-          </View>
+          </View> */}
         </View>
       </View>
     </View>
