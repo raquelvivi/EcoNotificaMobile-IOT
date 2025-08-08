@@ -1,21 +1,84 @@
-Para iniciar o projeto como um todo:
 
-fora de back e front digite: "npm start"
+# 🌱 EcoNotifica
 
-iniciar apenas back: "npm run dev"
+**EcoNotifica** é um sistema inteligente de gerenciamento de resíduos sólidos, voltado para empresas, instituições e prefeituras. Utiliza sensores IoT (Raspberry Pi Zero W + ultrassônico) integrados a uma plataforma web/mobile, permitindo o monitoramento de lixeiras em tempo real, envio de notificações automáticas e visualização em mapa com dashboards interativos.
 
-iniciar apenas o front: "npx expo start"
+Tecnologias envolvidas:
+- **Frontend**: React Native (Expo), React Navigation, React Native Maps
+- **Backend**: Node.js, Express, PostgreSQL, MQTT
+- **IoT**: MicroPython em Raspberry Pi Zero W com sensores ultrassônicos
+- **Outros**: Geolocalização, notificações de status, autenticação JWT
 
-para ver a mensagem de wifi desconectado, instale: npx expo install @react-native-community/netinfo
+> 📱 O aplicativo já está disponível na **Play Store** como teste fechado.
 
-para o modal de conexão com internet aparecer em qualquer tela: npx expo install react-native-paper react-native-safe-area-context
+---
 
-OBS: se quiser iniciar apenas um, entre na pasta devida
+## Instruções para iniciar o projeto
 
-Talves seja necessario a instalação de alguns pacotes: 
-pasta raiz: concurrently, dotenv, 
-pasta Front: expo-linear-gradient, @react-navigation/native, @react-navigation/stack, react-native-gesture-handler, react-native-reanimated, react-native-screens  
+### Estrutura do projeto
+```
+EcoNotifica/
+├── backend/        # Servidor Node.js + banco de dados
+├── frontend/       # Aplicativo mobile com Expo
+├── .env            # Variáveis de ambiente
+├── package.json    # Scripts e dependências principais
+```
 
-<!-- esses ultimos 5 não devem precisar baixar mas por via das duvidas. Eles são necessarios para a navegação horizontal -->
+### Requisitos
+- Node.js instalado (versão 18+ recomendada)
+- Expo CLI (`npm install -g expo-cli`)
+- Banco de dados PostgreSQL (configurado via `.env`)
+- MQTT Broker (local ou hospedado)
 
-install = 'npm install Nome_pacote'
+---
+
+## Comandos principais
+
+### Iniciar o sistema completo (backend + frontend):
+```bash
+npm start
+```
+> Esse comando executa backend e frontend simultaneamente com o `concurrently`.
+
+### Iniciar apenas o backend:
+```bash
+npm run dev
+```
+
+### Iniciar apenas o frontend:
+```bash
+cd frontend
+npx expo start
+```
+> **Observação**: sempre entre na pasta correspondente (`backend` ou `frontend`) caso deseje rodar um módulo isoladamente.
+
+---
+
+## Instalação de dependências
+
+### No diretório raiz:
+```bash
+npm install concurrently dotenv
+```
+
+### No diretório `frontend`:
+```bash
+npx expo install @react-native-community/netinfo
+npx expo install react-native-paper react-native-safe-area-context
+npx expo install expo-linear-gradient
+npm install @react-navigation/native @react-navigation/stack react-native-gesture-handler react-native-reanimated react-native-screens
+```
+> Os últimos 5 pacotes são essenciais para a navegação entre telas (inclusive navegação horizontal). Em geral, o Expo já instala eles automaticamente, mas é bom garantir.
+
+---
+
+## ⚠️ Observações
+
+- Para visualizar o **modal de conexão com a internet** em qualquer tela, é necessário ter instalado:
+  ```bash
+  npx expo install @react-native-community/netinfo react-native-paper react-native-safe-area-context
+  ```
+
+- Para testar o **alerta de Wi-Fi desconectado**, desligue a conexão no celular ou emule isso no simulador.
+
+- Certifique-se de que o `.env` está corretamente configurado tanto no backend quanto no frontend.
