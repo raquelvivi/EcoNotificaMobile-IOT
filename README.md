@@ -1,21 +1,21 @@
 
 # 🌱 EcoNotifica
 
-**EcoNotifica** é um sistema inteligente de gerenciamento de resíduos sólidos, voltado para empresas, instituições e prefeituras. Utiliza sensores IoT (ESP32 + ultrassônico) integrados a uma plataforma web/mobile, permitindo o monitoramento de lixeiras em tempo real, envio de notificações automáticas e visualização em mapa com dashboards interativos.
+**EcoNotifica** é um sistema inteligente de gerenciamento de resíduos sólidos, voltado para empresas, instituições e prefeituras. Utiliza sensores IoT (Raspberry Pi Zero W + ultrassônico) integrados a uma plataforma web/mobile, permitindo o monitoramento de lixeiras em tempo real, envio de notificações automáticas e visualização em mapa com dashboards interativos.
 
 Tecnologias envolvidas:
 - **Frontend**: React Native (Expo), React Navigation, React Native Maps
 - **Backend**: Node.js, Express, PostgreSQL, MQTT
-- **IoT**: MicroPython em ESP32 com sensores ultrassônicos
+- **IoT**: MicroPython em Raspberry Pi Zero W com sensores ultrassônicos
 - **Outros**: Geolocalização, notificações de status, autenticação JWT
 
 > 📱 O aplicativo já está disponível na **Play Store** como teste fechado.
 
 ---
 
-## 🚀 Instruções para iniciar o projeto
+## Instruções para iniciar o projeto
 
-### 📁 Estrutura do projeto
+### Estrutura do projeto
 ```
 EcoNotifica/
 ├── backend/        # Servidor Node.js + banco de dados
@@ -24,7 +24,7 @@ EcoNotifica/
 ├── package.json    # Scripts e dependências principais
 ```
 
-### ✅ Requisitos
+### Requisitos
 - Node.js instalado (versão 18+ recomendada)
 - Expo CLI (`npm install -g expo-cli`)
 - Banco de dados PostgreSQL (configurado via `.env`)
@@ -32,20 +32,20 @@ EcoNotifica/
 
 ---
 
-## 🧭 Comandos principais
+## Comandos principais
 
-### ▶️ Iniciar o sistema completo (backend + frontend):
+### Iniciar o sistema completo (backend + frontend):
 ```bash
 npm start
 ```
 > Esse comando executa backend e frontend simultaneamente com o `concurrently`.
 
-### ▶️ Iniciar apenas o backend:
+### Iniciar apenas o backend:
 ```bash
 npm run dev
 ```
 
-### ▶️ Iniciar apenas o frontend:
+### Iniciar apenas o frontend:
 ```bash
 cd frontend
 npx expo start
@@ -54,14 +54,14 @@ npx expo start
 
 ---
 
-## 📦 Instalação de dependências
+## Instalação de dependências
 
-### 🔁 No diretório raiz:
+### No diretório raiz:
 ```bash
 npm install concurrently dotenv
 ```
 
-### 📱 No diretório `frontend`:
+### No diretório `frontend`:
 ```bash
 npx expo install @react-native-community/netinfo
 npx expo install react-native-paper react-native-safe-area-context
